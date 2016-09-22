@@ -1,5 +1,7 @@
 class Ticket < ActiveRecord::Base
-  include Generator  
+  include Generator
+
+  has_many :histories  
   enum department: { dept1: 0,
                      dept2: 1,
                      dept3: 2 }
@@ -7,7 +9,7 @@ class Ticket < ActiveRecord::Base
                  waiting_for_customer: 1,
                  on_hold: 2, canceled: 3,
                  completed: 4 }
-                 
+
   validates :name, :email, :subject, :body, :random_id,  presence: true
   validates :random_id, uniqueness: true
   validates :status, inclusion: { in: statuses.keys }, presence: true

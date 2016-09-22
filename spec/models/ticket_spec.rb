@@ -6,6 +6,7 @@ RSpec.describe Ticket, type: :model do
   it { should validate_presence_of :random_id }
   it { should validate_presence_of :department }
   it { should validate_presence_of :status }
+  it { should have_many :histories }
 
   describe '.dept' do
     let!(:ticket){ create :ticket, department: 2 }

@@ -1,0 +1,7 @@
+<% if @ticket.errors.any? %>
+  $('.notice_flash ').html("");
+  $('.errors').html("<%= j render 'common/errors', resource:@ticket %>");
+<% else %>
+  $('.errors').html("");
+  $('.notice_flash ').html("<p class='notice'><%= flash[:notice] %></p>");
+<% end %> 

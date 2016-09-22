@@ -9,6 +9,8 @@ Rails.application.routes.draw do
     get 'ticket', on: :collection
   end
 
+  resources :tickets
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

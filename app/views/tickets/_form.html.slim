@@ -1,0 +1,22 @@
+.container
+  .row
+    .col-sm-4.col-sm-offset-3
+      =form_for @ticket , remote: true do |f|
+        .errors        
+        p  
+          = f.label :name, class: 'label_hidden' 
+          = f.text_field :name, placeholder:'Input your name', class:'form-control'
+        p  
+          = f.label :email, class: 'label_hidden' 
+          = f.email_field :email, placeholder:'Input your email', class:'form-control'
+        p  
+          = f.label :department, class: 'label_hidden'
+          = f.select :department, Ticket.departments.keys, class:'form-control'
+        p  
+          = f.label :subject, class: 'label_hidden' 
+          = f.text_field :subject, placeholder:'Input subject of a ticket', class:'form-control'
+        p
+          = f.label :body, class: 'label_hidden'
+          = f.text_area :body, placeholder:'Input ticket details', class:'form-control'  
+        p
+          = f.submit 'Submit', class:'btn btn-default custom'
