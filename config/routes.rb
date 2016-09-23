@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     get 'onhold', on: :collection
     get 'closed', on: :collection
   end
+  
   get '/signup' => 'stuffs#new'
   post '/stuffs' => 'stuffs#create'
 
