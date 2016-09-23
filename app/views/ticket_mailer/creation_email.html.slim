@@ -1,0 +1,14 @@
+doctype html
+html lang="en"
+  head
+    meta charset="utf-8"
+      body
+        h1 Welcome to tickets.com 
+        =@ticket.name 
+        p your ticket id
+        =@ticket.random_id 
+        p link to tickets history
+        =link_to 'Ticket history', @url
+        p You have successfully created a ticket!      
+    
+  

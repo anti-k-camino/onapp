@@ -1,0 +1,15 @@
+.container
+  .row
+    .col-sm-5
+      .panel.panel-default
+        p=@ticket.name
+        p=@ticket.subject
+      .panel.panel-default
+        =render 'form'
+    .col-sm-7
+      .panel.panel-default
+        -@ticket.histories.each do |h|
+          .panel.panel-defaut.history
+            p=h.event 
+            p=h.updated_at.utc 
+  
