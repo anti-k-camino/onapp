@@ -1,5 +1,40 @@
 require 'rails_helper'
 
 RSpec.describe SessionsController, type: :controller do
+  describe 'POST#create' do
+    context 'existing stuff without token' do
+      let!(:stuff){ create :stuff }
+      it 'should assign stuff to @stuff' do
+        post :create, name: stuff.name, password: stuff.password
+        expect(assigns :stuff).to eq stuff
+      end
 
+      it 'should create a session with stuff id' do 
+        post :create, name: stuff.name, password: stuff.password
+        expect(session[:stuff_id]).to eq stuff.id
+      end
+=begin
+      it 'should create authenticity_token' do
+        post :create, name: stuff.name, password: stuff.password
+        expect(authenticity_token.present?).to be_truthy
+      end
+=end
+      it 'should redirect to root path' do
+        post :create, name: stuff.name, password: stuff.password
+        expect(response).to redirect_to root_path
+      end
+    end
+    context 'non existing user' do      
+
+      it 'should create a session with stuff id' do 
+        post :create, name: 'nname', password: '654321'
+        expect(session[:stuff_id].present?).to be_falsy
+      end
+
+      it 'should redirect to root path' do        
+        post :create, name: 'nname', password: '654321'
+        expect(response).to redirect_to login_path
+      end
+    end
+  end
 end

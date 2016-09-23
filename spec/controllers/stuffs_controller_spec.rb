@@ -26,7 +26,6 @@ RSpec.describe StuffsController, type: :controller do
     end
 
     context 'Inalid attributes' do
-
       it 'should not create a new user' do
         expect{ post :create, stuff: {password: '123123'} }.to_not change(Stuff, :count)
       end
