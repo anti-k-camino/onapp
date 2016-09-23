@@ -13,5 +13,5 @@ FactoryGirl.define do
     random_id 
     subject 'somesubject'
     body 'somebody'    
-  end
+  end  
 end

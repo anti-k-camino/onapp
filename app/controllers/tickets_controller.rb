@@ -24,7 +24,7 @@ class TicketsController < ApplicationController
     @ticket = Ticket.find(params[:id])
   end
 
-  def create_mail    
-    TicketMailer.creation_email(@ticket).deliver_now
+  def create_mail        
+    TicketMailer.creation_email(@ticket).deliver_now unless @ticket.errors.any?
   end
 end
