@@ -10,6 +10,12 @@ Rails.application.routes.draw do
   end
 
   resources :tickets
+  get '/signup' => 'stuffs#new'
+  post '/stuffs' => 'stuffs#create'
+
+  get '/login' => 'sessions#new'
+  post '/login' => 'sessions#create'
+  get '/logout' => 'sessions#destroy'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

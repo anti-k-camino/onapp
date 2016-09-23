@@ -29,6 +29,12 @@ html lang="en"
         .col-lg-12
           .notice_flash                
             = bootstrap_flash
+            -if current_stuff
+              = link_to "Logout", '/logout'
+            -else
+              = link_to 'Login', '/login'
+              = link_to 'Signup', '/signup'
+
           = yield     
 
       footer

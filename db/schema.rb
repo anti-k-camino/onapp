@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160922204307) do
+ActiveRecord::Schema.define(version: 20160923145356) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,15 @@ ActiveRecord::Schema.define(version: 20160922204307) do
   end
 
   add_index "histories", ["ticket_id"], name: "index_histories_on_ticket_id", using: :btree
+
+  create_table "stuffs", force: :cascade do |t|
+    t.string   "name"
+    t.string   "password_digest"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "stuffs", ["name"], name: "index_stuffs_on_name", unique: true, using: :btree
 
   create_table "tickets", force: :cascade do |t|
     t.string   "name",       default: "", null: false

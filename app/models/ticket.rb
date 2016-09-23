@@ -3,7 +3,9 @@ class Ticket < ActiveRecord::Base
 
   after_save :create_history
 
-  has_many :histories  
+  has_many :histories 
+  belongs_to :stuff
+   
   enum department: { dept1: 0,
                      dept2: 1,
                      dept3: 2 }

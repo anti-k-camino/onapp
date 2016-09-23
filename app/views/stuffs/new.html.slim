@@ -1,0 +1,6 @@
+h1 Signup!
+= form_for :stuff, url: '/stuffs' do |f|
+  = f.text_field :name
+  = f.password_field :password 
+  = f.password_field :password_confirmation
+  = f.submit
