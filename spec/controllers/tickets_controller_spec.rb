@@ -64,7 +64,33 @@ RSpec.describe TicketsController, type: :controller do
         expect(response).to render_template :create
       end
     end
-
   end
+  describe 'PATCH#update' do
+    let!(:ticket){ create :ticket }
+
+    it 'should call create_mail' do
+      expect(TicketMailer).to receive(:creation_email).and_call_original
+      patch :update, id: ticket, ticket:{ body: 'Some new body'}, format: :js     
+    end
+
+    it "should set ticket's status to waiting for stuff response" do
+      patch :update, id: ticket, ticket:{ body: 'Some new body'}, format: :js 
+      expect(Ticket.last.current_status).to eq 'Waiting for stuff response' 
+    end
+
+    it 'should not create a new ticket' do
+      expect{ patch :update, id: ticket, ticket:{ body: 'Some new body'}, format: :js }.to_not change(Ticket, :count)
+    end
+
+    it 'should create a new history' do
+      expect{ patch :update, id: ticket, ticket:{ body: 'Some new body'}, format: :js }.to change(ticket.histories, :count).by(1)
+    end
+
+    it 'should render view create' do
+      patch :update, id: ticket, ticket:{ body: 'Some new body'}, format: :js
+      expect(response).to render_template :update
+    end
+
+  end 
 
 end
