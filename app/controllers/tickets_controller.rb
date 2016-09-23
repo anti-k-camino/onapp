@@ -1,5 +1,4 @@
-class TicketsController < ApplicationController 
-  before_action :authorize 
+class TicketsController < ApplicationController   
   before_action :load_ticket, only:[:show, :update]
   after_action :create_mail, only:[:create, :update]
   respond_to :js
