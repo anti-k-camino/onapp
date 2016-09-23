@@ -16,11 +16,96 @@ RSpec.describe Ticket, type: :model do
     end
   end
 
-  describe '.status' do
+  describe '.current_status' do
     let!(:ticket){ create :ticket, status: 2 }
 
     it 'should return right dept' do
       expect(ticket.current_status).to eq 'On hold'
     end
   end
+
+  describe '.opened' do
+    let!(:ticket){ create :ticket, status: 'canceled' }
+    let!(:ticket1){ create :ticket, status: 0 }
+    let!(:ticket2){ create :ticket, status: 2 }
+    let!(:ticket3){ create :ticket, status: 'completed' }
+    let!(:ticket4){ create :ticket, status: 1 }
+
+    it 'should not return canceled or completed' do 
+      expect(Ticket.opened.include?(ticket)).to be_falsy
+      expect(Ticket.opened.include?(ticket3)).to be_falsy 
+    end
+
+    it 'should return all except cancelled or completed' do
+      expect(Ticket.opened).to eq [ticket1, ticket2, ticket4]      
+    end
+  end
+
+  describe '.unassigned' do
+    let!(:tickets){ create_list :ticket, 3 }
+
+    before do
+      tickets[1].update(status: 'completed')
+    end
+
+    it 'should return only unassigned tickets' do      
+      expect(Ticket.unassigned).to eq [tickets[0], tickets[2]]
+    end
+
+    it 'should not return other statuses' do
+      expect(Ticket.unassigned.include?(tickets[1])).to be_falsy
+    end
+  end
+
+  describe '.onhold' do
+    let!(:tickets){ create_list :ticket, 3 }
+
+    before do
+      tickets[1].update(status: 'on_hold')
+    end
+
+    it 'should return only on_hold tickets' do      
+      expect(Ticket.onhold).to eq [tickets[1]]
+    end
+
+    it 'should not return other statuses' do
+      expect(Ticket.onhold.include?(tickets[0])).to be_falsy
+    end
+  end
+
+  describe '.onhold' do
+    let!(:tickets){ create_list :ticket, 3 }
+
+    before do
+      tickets[1].update(status: 'on_hold')
+    end
+
+    it 'should return only on_hold tickets' do      
+      expect(Ticket.onhold).to eq [tickets[1]]
+    end
+
+    it 'should not return other statuses' do
+      expect(Ticket.onhold.include?(tickets[0])).to be_falsy
+    end
+  end
+
+  describe '.closed' do
+    let!(:ticket){ create :ticket, status: 'canceled' }
+    let!(:ticket1){ create :ticket, status: 0 }
+    let!(:ticket2){ create :ticket, status: 2 }
+    let!(:ticket3){ create :ticket, status: 'completed' }
+    let!(:ticket4){ create :ticket, status: 1 }
+
+    it 'should not return canceled or completed' do 
+      expect(Ticket.closed.include?(ticket1)).to be_falsy
+      expect(Ticket.closed.include?(ticket2)).to be_falsy 
+    end
+
+    it 'should return all except cancelled or completed' do
+      expect(Ticket.closed).to eq [ticket, ticket3]      
+    end
+   
+  end
+
+
 end
