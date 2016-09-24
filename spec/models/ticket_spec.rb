@@ -57,6 +57,26 @@ RSpec.describe Ticket, type: :model do
     end
   end
 
+  describe 'status_owner_changed?' do
+    let!(:ticket){ create :ticket }
+    let!(:stuff){ create :stuff }
+
+    it 'should return true if status changed' do
+      ticket.status = 3
+      expect(ticket.status_owner_changed?).to be_truthy
+    end
+
+    it 'should return true if owner changed' do
+      ticket.stuff = stuff
+      expect(ticket.status_owner_changed?).to be_truthy
+    end
+
+    it 'should return false in case of other updates' do
+      ticket.subject = 'New subject'
+      expect(ticket.status_owner_changed?).to be_falsy
+    end
+  end
+
   describe '.onhold' do
     let!(:tickets){ create_list :ticket, 3 }
 

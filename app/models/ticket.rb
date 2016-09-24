@@ -19,10 +19,21 @@ class Ticket < ActiveRecord::Base
   validates :random_id, uniqueness: true
   validates :status, inclusion: { in: statuses.keys }, presence: true
   validates :department, inclusion: { in: departments.keys }, presence: true 
-
+=begin
   def create_history
     histories.create(event: "#{current_status}")
   end
+=end
+  def create_history
+    event_status = "Status to #{self.status}.\n" if status_changed?
+    event_owner = "Now it is provided by #{self.stuff.name}\n" if stuff_id_changed?
+    histories.create(event: "Changed! #{event_status} #{event_owner} On #{self.updated_at.utc}") if status_owner_changed?
+  end
+
+  def status_owner_changed?
+    status_changed? || stuff_id_changed?
+  end
+  
   def dept
     self.department.humanize
   end
