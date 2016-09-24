@@ -8,8 +8,8 @@
         =render 'form'
     .col-sm-7
       .panel.panel-default
-        -@ticket.histories.each do |h|
+        -@ticket.versions.each do |v|
           .panel.panel-defaut.history
-            p=h.event 
-            p=h.updated_at.utc 
+            p=v.event 
+            p=v.updated_at.utc 
   

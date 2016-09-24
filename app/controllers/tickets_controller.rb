@@ -1,5 +1,6 @@
-class TicketsController < ApplicationController   
-  before_action :load_ticket, only:[:show, :update]
+class TicketsController < ApplicationController
+  before_action :authorize, only:[:stuff_update]
+  before_action :load_ticket, only:[:show, :update, :stuff_update]
   after_action :create_mail, only:[:create, :update]
   
   respond_to :js
@@ -8,9 +9,13 @@ class TicketsController < ApplicationController
     respond_with @ticket = Ticket.create(ticket_params.merge(random_id: Ticket.generate_id))
   end
 
-  def update
+  def update        
+    @ticket.update(ticket_params.merge(status: 0))
     flash[:notice] = "Your ticket successfully updated."    
-    @ticket.update!(ticket_params)    
+  end
+
+  def stuff_update
+    @ticket.update(ticket_params)    
   end
 
   def show

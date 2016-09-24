@@ -8,6 +8,7 @@ require 'rspec/rails'
 require 'shoulda/matchers'
 require 'support/factory_girl'
 require 'capybara/email/rspec'
+require 'paper_trail/frameworks/rspec'
 
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|

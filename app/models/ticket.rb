@@ -1,9 +1,10 @@
 class Ticket < ActiveRecord::Base
   include Generator
+  has_paper_trail only:[:stuff_id, :status], on:[:update] 
   
-  around_update :create_history
+  #around_update :create_history
 
-  has_many :histories 
+  #has_many :histories 
   belongs_to :stuff
    
   enum department: { dept1: 0,
@@ -20,20 +21,16 @@ class Ticket < ActiveRecord::Base
   validates :status, inclusion: { in: statuses.keys }, presence: true
   validates :department, inclusion: { in: departments.keys }, presence: true 
 =begin
-  def create_history
-    histories.create(event: "#{current_status}")
-  end
-=end
   def create_history    
     @event_status = "Status to #{self.status}.\n" if status_changed?    
     @event_owner = "Now it is provided by #{self.stuff.name}\n" if stuff_id_changed?
     yield    
     histories.create(event: "Changed! #{@event_status} #{@event_owner} On #{self.updated_at.utc}") if @event_status || @event_owner
   end
+=end
 
-  def status_owner_changed?
-    status_changed? || stuff_id_changed?
-  end
+  def stuff_update
+  end 
   
   def dept
     self.department.humanize

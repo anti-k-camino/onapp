@@ -67,7 +67,7 @@ RSpec.describe TicketsController, type: :controller do
   end
   
   describe 'PATCH#update' do
-    let!(:ticket){ create :ticket , status: 0 }
+    let!(:ticket){ create :ticket, status: 1 }
     let!(:stuff){ create :stuff }
 
     it 'should call create_mail' do
@@ -84,6 +84,14 @@ RSpec.describe TicketsController, type: :controller do
       expect{ patch :update, id: ticket, ticket:{ body: 'Some new body'}, format: :js }.to_not change(Ticket, :count)
     end
 
+    it 'should not save a version of update', versioning: true do
+      expect{ patch :update, id: ticket, ticket:{ body: 'Some new body'}, format: :js }.to change(ticket.versions, :count).by(1)
+    end
+
+    it 'should not save a version of update', versioning: true do
+    end
+
+=begin
     it 'should  not create a new history when status is not updated' do
       expect{ patch :update, id: ticket, ticket:{ status: 0 }, format: :js }.to_not change(ticket.histories, :count)     
     end
@@ -99,8 +107,8 @@ RSpec.describe TicketsController, type: :controller do
     it 'should not create a new history when updating others' do
       expect{ patch :update, id: ticket, ticket:{ body: 'Some new body'}, format: :js }.to_not change(ticket.histories, :count)
     end
-
-    it 'should render view create' do
+=end
+    it 'should render view update' do
       patch :update, id: ticket, ticket:{ body: 'Some new body'}, format: :js
       expect(response).to render_template :update
     end
