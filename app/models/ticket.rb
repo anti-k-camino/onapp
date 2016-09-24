@@ -1,7 +1,7 @@
 class Ticket < ActiveRecord::Base
   include Generator
-
-  after_save :create_history
+  
+  around_update :create_history
 
   has_many :histories 
   belongs_to :stuff
@@ -24,10 +24,11 @@ class Ticket < ActiveRecord::Base
     histories.create(event: "#{current_status}")
   end
 =end
-  def create_history
-    event_status = "Status to #{self.status}.\n" if status_changed?
-    event_owner = "Now it is provided by #{self.stuff.name}\n" if stuff_id_changed?
-    histories.create(event: "Changed! #{event_status} #{event_owner} On #{self.updated_at.utc}") if status_owner_changed?
+  def create_history    
+    @event_status = "Status to #{self.status}.\n" if status_changed?    
+    @event_owner = "Now it is provided by #{self.stuff.name}\n" if stuff_id_changed?
+    yield    
+    histories.create(event: "Changed! #{@event_status} #{@event_owner} On #{self.updated_at.utc}") if @event_status || @event_owner
   end
 
   def status_owner_changed?

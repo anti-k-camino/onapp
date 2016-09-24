@@ -1,6 +1,7 @@
 class TicketsController < ApplicationController   
   before_action :load_ticket, only:[:show, :update]
   after_action :create_mail, only:[:create, :update]
+  
   respond_to :js
 
   def create    
@@ -9,7 +10,7 @@ class TicketsController < ApplicationController
 
   def update
     flash[:notice] = "Your ticket successfully updated."    
-    @ticket.update(ticket_params.merge(status: 0))    
+    @ticket.update!(ticket_params)    
   end
 
   def show
@@ -17,7 +18,7 @@ class TicketsController < ApplicationController
 
   protected
   def ticket_params
-    params.require(:ticket).permit(:name, :subject, :email, :status, :body, :department)
+    params.require(:ticket).permit(:name, :subject, :email, :status, :body, :department, :stuff_id)
   end
 
   def load_ticket
