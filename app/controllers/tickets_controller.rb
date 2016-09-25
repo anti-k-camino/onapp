@@ -11,11 +11,12 @@ class TicketsController < ApplicationController
 
   def update        
     @ticket.update(ticket_params.merge(status: 0))
-    flash[:notice] = "Your ticket successfully updated."    
+    flash[:notice] = 'Your ticket successfully updated.'  
   end
 
   def stuff_update        
-    @ticket.update(ticket_params)        
+    @ticket.update(ticket_params) 
+    flash[:notice] = 'Ticket has been updated.'       
   end
 
   def show
