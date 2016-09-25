@@ -1,13 +1,20 @@
 -@tickets.each do |t|
-  -t.replies.build
+  -t.replies.build  
   .panel.panel-default
     p=t.subject
+    .panel.panel-default
+      -unless t.replies.empty?
+        -t.replies.each do |r|
+          .panel.panel-default
+            =r.body
+            =r.created_at.try(:utc)
     =form_for t, url: "/tickets/#{t.id}/stuff_update", method: :patch do |f|
       p
         = f.label :status, class: 'label_hidden'
         = f.select :status, Ticket.statuses.keys, {}, {class:'form-control'}
       p      
-        = f.fields_for :replies do |ff|  
-          = ff.label :body
-          = ff.text_field :body 
+        = f.fields_for :replies do |ff|
+          -if ff.object.id.nil? 
+            = ff.label :body
+            = ff.text_field :body
       = f.submit "Submit"
