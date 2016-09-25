@@ -1,0 +1,13 @@
+-@tickets.each do |t|
+  -t.replies.build
+  .panel.panel-default
+    p=t.subject
+    =form_for t, url: "/tickets/#{t.id}/stuff_update", method: :patch do |f|
+      p
+        = f.label :status, class: 'label_hidden'
+        = f.select :status, Ticket.statuses.keys, {}, {class:'form-control'}
+      p      
+        = f.fields_for :replies do |ff|  
+          = ff.label :body
+          = ff.text_field :body 
+      = f.submit "Submit"

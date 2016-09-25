@@ -10,6 +10,7 @@
       .panel.panel-default
         -@ticket.versions.each do |v|
           .panel.panel-defaut.history
-            p=v.event 
-            p=v.updated_at.utc 
+            p=v.current_status if v.current_status
+            p=Stuff.find(id: v.stuff_id).name if v.stuff_id
+            
   

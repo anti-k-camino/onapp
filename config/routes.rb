@@ -9,7 +9,10 @@ Rails.application.routes.draw do
     get 'ticket', on: :collection
   end
 
-  resources :tickets
+  resources :tickets do
+    patch 'stuff_update', on: :member
+    resources :replies
+  end
 
   resource :dashboard, only:[] do
     get 'unassigned', on: :collection

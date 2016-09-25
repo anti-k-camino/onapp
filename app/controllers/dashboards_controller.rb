@@ -1,10 +1,10 @@
 class DashboardsController < ApplicationController
-  before_action :authorize
+  #before_action :authorize  
   before_action :method
 
   def unassigned        
   end
-  def opened     
+  def opened           
   end
   def onhold     
   end
@@ -12,7 +12,8 @@ class DashboardsController < ApplicationController
   end
 
   protected
+ 
   def method
     @tickets = Ticket.send(action_name.to_sym)
-  end
+  end 
 end

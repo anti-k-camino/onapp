@@ -6,6 +6,8 @@ RSpec.describe Ticket, type: :model do
   it { should validate_presence_of :random_id }
   it { should validate_presence_of :department }
   it { should validate_presence_of :status }
+  it { should have_many :replies }
+  it { should accept_nested_attributes_for :replies }
   #it { should have_many :histories }
 
   describe '.dept' do

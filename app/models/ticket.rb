@@ -1,10 +1,12 @@
 class Ticket < ActiveRecord::Base
   include Generator
   has_paper_trail only:[:stuff_id, :status], on:[:update] 
+  has_many :replies
+  accepts_nested_attributes_for :replies, reject_if: lambda{ |attributes| attributes['body'].blank? }
   
   #around_update :create_history
-
   #has_many :histories 
+  
   belongs_to :stuff
    
   enum department: { dept1: 0,
