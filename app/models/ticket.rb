@@ -29,10 +29,7 @@ class Ticket < ActiveRecord::Base
     yield    
     histories.create(event: "Changed! #{@event_status} #{@event_owner} On #{self.updated_at.utc}") if @event_status || @event_owner
   end
-=end 
-
-  def stuff_update
-  end 
+=end  
   
   def dept
     self.department.humanize

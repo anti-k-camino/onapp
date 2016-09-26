@@ -10,17 +10,17 @@
             tr
               th Customer name
               th Created 
+              th Department
           tbody
             tr
               td=t.name
               td=t.created_at.utc
-        p=t.subject
-        p=t.body
-        p=t.name
-        .department
-          =t.dept
+              td=t.dept
+        h4=t.subject
+        .panel-body
+          =t.body       
     -t.replies.build  
-    .panel.panel-default
+    .container-fluid
       -unless t.replies.empty?
         -t.replies.each do |r|          
           =r.body

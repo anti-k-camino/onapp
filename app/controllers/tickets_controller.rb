@@ -1,8 +1,15 @@
 class TicketsController < ApplicationController
-  #before_action :authorize, only:[:stuff_update]  
+  before_action :authorize, only:[:stuff_update]  
   before_action :load_ticket, only:[:show, :update, :stuff_update, :edit]
   before_action :set_waiting_customer, only:[:stuff_update]
-  after_action :create_mail, only:[:create, :update] 
+  after_action only:[:create, :update] do
+    create_mail(:creation_email)
+  end
+
+  after_action only:[:stuff_update] do
+    create_mail(:stuff_reply)
+  end
+
 
   
   respond_to :js
@@ -36,8 +43,12 @@ class TicketsController < ApplicationController
   def load_ticket
     @ticket = Ticket.find(params[:id])
   end
-
+=begin
   def create_mail        
     TicketMailer.creation_email(@ticket).deliver_now unless @ticket.errors.any?
   end
+=end
+  def create_mail(param)        
+    TicketMailer.send(param, @ticket).send(:deliver_now) unless @ticket.errors.any?
+  end  
 end
