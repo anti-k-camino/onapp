@@ -1,5 +1,5 @@
 .container-fluid
-  =form_for t, url: "/tickets/#{t.id}/stuff_update", method: :patch do |f|
+  =form_for t, url: "/tickets/#{t.id}/stuff_update", remote: true , method: :patch do |f|
     p
       = f.label :status, class: 'label_hidden'
       = f.select :status, Ticket.statuses.keys, {}, {class:'form-control'}

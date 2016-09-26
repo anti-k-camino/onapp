@@ -1,6 +1,11 @@
 h1 Login
-= form_tag '/login' do
-  = text_field_tag :name
-  = password_field_tag :password
-  = submit_tag "Submit"
+= form_tag login_path do
+  p
+    = label_tag :name
+    = text_field_tag :name
+  p
+    = label_tag :password
+    = password_field_tag :password
+  p
+    = submit_tag "Log in"
 

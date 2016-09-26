@@ -1,17 +1,18 @@
 class SessionsController < ApplicationController
   before_action :set_stuff, only:[:create]
+  
   def create    
     if @stuff && @stuff.authenticate(params[:password])      
       session[:stuff_id] = @stuff.id
-      redirect_to '/'
+      redirect_to opened_dashboard_path
     else    
-      redirect_to '/login'
+      redirect_to login_path
     end
   end
 
   def destroy
     session[:stuff_id] = nil
-    redirect_to '/login'
+    redirect_to login_path
   end
 
   private

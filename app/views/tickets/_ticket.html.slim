@@ -1,0 +1,30 @@
+.container-fluid id="stuff_ticket_#{t.id}"
+    .panel-default
+      .panel-heading
+        |Number:  
+        =t.random_id           
+      .panel-body
+        table.table
+          thead
+            tr
+              th Customer name
+              th Created 
+              th Department
+          tbody
+            tr
+              td=t.name
+              td=t.created_at.utc
+              td=t.dept
+        .container-fluid
+          .panel-heading
+            =t.subject
+          .panel-body
+            =t.body        
+    -t.replies.build  
+    .container-fluid
+      -unless t.replies.empty?
+        -t.replies.each do |r|          
+          div
+           p=r.body
+           p=r.created_at.try(:utc)
+      =render 'tickets/stuff_update_form', t: t

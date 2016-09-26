@@ -4,10 +4,13 @@ class DashboardsController < ApplicationController
 
   def unassigned        
   end
+
   def opened           
   end
+
   def onhold     
   end
+  
   def closed  
   end
 

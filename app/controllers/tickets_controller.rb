@@ -2,6 +2,7 @@ class TicketsController < ApplicationController
   before_action :authorize, only:[:stuff_update]  
   before_action :load_ticket, only:[:show, :update, :stuff_update, :edit]
   before_action :set_waiting_customer, only:[:stuff_update]
+
   after_action only:[:create, :update] do
     create_mail(:creation_email)
   end
@@ -25,7 +26,7 @@ class TicketsController < ApplicationController
 
   def stuff_update                
     @ticket.update(ticket_params) 
-    flash[:notice] = 'Ticket has been updated.'       
+    respond_with @ticket           
   end
 
   def show
@@ -33,7 +34,7 @@ class TicketsController < ApplicationController
 
   protected
   def ticket_params
-    params.require(:ticket).permit(:name, :subject, :email, :status, :body, :department, :stuff_id, replies_attributes: [:id, :body])
+    params.require(:ticket).permit(:name, :subject, :email, :status, :body, :department, :stuff_id, replies_attributes: [:body])
   end
 
   def set_waiting_customer
@@ -43,11 +44,7 @@ class TicketsController < ApplicationController
   def load_ticket
     @ticket = Ticket.find(params[:id])
   end
-=begin
-  def create_mail        
-    TicketMailer.creation_email(@ticket).deliver_now unless @ticket.errors.any?
-  end
-=end
+
   def create_mail(param)        
     TicketMailer.send(param, @ticket).send(:deliver_now) unless @ticket.errors.any?
   end  

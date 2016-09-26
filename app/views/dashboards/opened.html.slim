@@ -1,29 +1,4 @@
 -@tickets.each do |t|
-  .container-fluid
-    .panel-default
-      .panel-heading
-        |Number:  
-        =t.random_id           
-      .panel-body
-        table.table
-          thead
-            tr
-              th Customer name
-              th Created 
-              th Department
-          tbody
-            tr
-              td=t.name
-              td=t.created_at.utc
-              td=t.dept
-        h4=t.subject
-        .panel-body
-          =t.body       
-    -t.replies.build  
-    .container-fluid
-      -unless t.replies.empty?
-        -t.replies.each do |r|          
-          =r.body
-          =r.created_at.try(:utc)
-      =render 'tickets/stuff_update_form', t: t
+  =render 'tickets/ticket', t: t
+  
    

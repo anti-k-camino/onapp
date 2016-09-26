@@ -114,5 +114,15 @@ RSpec.describe TicketsController, type: :controller do
     end
 
   end 
-
+=begin
+  describe 'PATCH#stuff_update' do
+    context 'Authenticated stuff' do
+      let!(ticket){ create :ticket }
+      sign_in_stuff
+      it 'should not create a new ticket' do
+        expect{ patch :stuff_update, id: ticket, ticket:{ body: 'Some new body'}, format: :js }.to_not change(Ticket, :count)
+      end
+    end
+  end
+=end
 end
