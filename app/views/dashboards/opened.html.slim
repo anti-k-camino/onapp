@@ -1,20 +1,29 @@
 -@tickets.each do |t|
-  -t.replies.build  
-  .panel.panel-default
-    p=t.subject
+  .container-fluid
+    .panel-default
+      .panel-heading
+        |Number:  
+        =t.random_id           
+      .panel-body
+        table.table
+          thead
+            tr
+              th Customer name
+              th Created 
+          tbody
+            tr
+              td=t.name
+              td=t.created_at.utc
+        p=t.subject
+        p=t.body
+        p=t.name
+        .department
+          =t.dept
+    -t.replies.build  
     .panel.panel-default
       -unless t.replies.empty?
-        -t.replies.each do |r|
-          .panel.panel-default
-            =r.body
-            =r.created_at.try(:utc)
-    =form_for t, url: "/tickets/#{t.id}/stuff_update", method: :patch do |f|
-      p
-        = f.label :status, class: 'label_hidden'
-        = f.select :status, Ticket.statuses.keys, {}, {class:'form-control'}
-      p      
-        = f.fields_for :replies do |ff|
-          -if ff.object.id.nil? 
-            = ff.label :body
-            = ff.text_field :body
-      = f.submit "Submit"
+        -t.replies.each do |r|          
+          =r.body
+          =r.created_at.try(:utc)
+      =render 'tickets/stuff_update_form', t: t
+   

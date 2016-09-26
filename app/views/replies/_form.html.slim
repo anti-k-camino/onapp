@@ -1,0 +1,4 @@
+= f.fields_for :replies do |ff|
+  -if ff.object.id.nil? 
+    = ff.label :body, class:'label_hidden'
+    = ff.text_area :body, placeholder:'Input reply', class:'form-control'

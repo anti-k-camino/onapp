@@ -1,7 +1,7 @@
 class TicketsController < ApplicationController
-  #before_action :authorize, only:[:stuff_update]
+  #before_action :authorize, only:[:stuff_update]  
   before_action :load_ticket, only:[:show, :update, :stuff_update, :edit]
-  after_action :create_mail, only:[:create, :update]
+  after_action :create_mail, only:[:create, :update]  
   
   respond_to :js
 
@@ -14,7 +14,11 @@ class TicketsController < ApplicationController
     flash[:notice] = 'Your ticket successfully updated.'  
   end
 
-  def stuff_update        
+  def stuff_update   
+    p 'OOOOOOOOOOOOOOOOOOOOO'
+    params[:ticket][:status] = 'waiting_for_customer' if ticket_params[:status] == 'waiting_for_stuff_response'
+    
+    p ticket_params[:status]         
     @ticket.update(ticket_params) 
     flash[:notice] = 'Ticket has been updated.'       
   end

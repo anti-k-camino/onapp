@@ -8,7 +8,7 @@ class DashboardsController < ApplicationController
   end
   def onhold     
   end
-  def closed    
+  def closed  
   end
 
   protected
