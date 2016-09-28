@@ -151,6 +151,10 @@ RSpec.describe TicketsController, type: :controller do
 
       it_behaves_like 'Non Authorizable'
 
+      it 'should  not create a new reply for ticket' do
+        expect{ patch :stuff_update, id: ticket, ticket:{ replies_attributes: [body: 'Awesome response']}, format: :js }.to_not change(ticket.replies, :count)
+      end
+
       def request
         return [nil, patch(:stuff_update, id: ticket, ticket:{ replies_attributes: [body: 'Awesome response'] })]
       end
