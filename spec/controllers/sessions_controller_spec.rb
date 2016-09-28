@@ -47,6 +47,13 @@ RSpec.describe SessionsController, type: :controller do
       it "should redirect to root path" do
         expect(response).to redirect_to login_path
       end
+    end
+
+    context 'Non-authenticatd stuff' do
+      it "should redirect to signup path" do
+        get :destroy
+        expect(response).to redirect_to login_path
+      end
     end    
   end
 end
