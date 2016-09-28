@@ -114,15 +114,47 @@ RSpec.describe TicketsController, type: :controller do
     end
 
   end 
-=begin
+
   describe 'PATCH#stuff_update' do
     context 'Authenticated stuff' do
-      let!(ticket){ create :ticket }
+      let!(:ticket){ create :ticket }
       sign_in_stuff
+
+      it 'should assign ticket to @ticket' do
+        patch :stuff_update, id: ticket, ticket:{ replies_attributes: [body: 'Awesome response']}, format: :js
+        expect(assigns :ticket).to eq ticket
+      end
+
       it 'should not create a new ticket' do
-        expect{ patch :stuff_update, id: ticket, ticket:{ body: 'Some new body'}, format: :js }.to_not change(Ticket, :count)
+        expect{ patch :stuff_update, id: ticket, ticket:{ replies_attributes: [body: 'Awesome response']}, format: :js }.to_not change(Ticket, :count)
+      end
+
+      it 'should create a new reply for ticket' do
+        expect{ patch :stuff_update, id: ticket, ticket:{ replies_attributes: [body: 'Awesome response']}, format: :js }.to change(ticket.replies, :count).by(1)
+      end
+
+      it 'should set status to waiting for customer response if curr. status equals to waiting for stuff' do        
+        patch :stuff_update, id: ticket, ticket:{ replies_attributes: [body: 'Awesome response'] }
+        ticket.reload
+        expect(ticket.current_status).to eq 'Waiting for customer'
+      end
+
+       it 'should not set status to waiting for customer response if status is set in params' do        
+        patch :stuff_update, id: ticket, ticket:{ status: 'completed', replies_attributes: [body: 'Awesome response'] }        
+        ticket.reload
+        expect(ticket.current_status).to eq 'Completed'
       end
     end
+
+    context 'Non-authenticated stuff' do
+      let!(:ticket){ create :ticket }
+
+      it_behaves_like 'Non Authorizable'
+
+      def request
+        return [nil, patch(:stuff_update, id: ticket, ticket:{ replies_attributes: [body: 'Awesome response'] })]
+      end
+    end    
   end
-=end
+
 end

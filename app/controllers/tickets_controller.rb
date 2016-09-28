@@ -10,9 +10,7 @@ class TicketsController < ApplicationController
   after_action only:[:stuff_update] do
     create_mail(:stuff_reply)
   end
-
-
-  
+    
   respond_to :js
 
   def create    
@@ -37,8 +35,8 @@ class TicketsController < ApplicationController
     params.require(:ticket).permit(:name, :subject, :email, :status, :body, :department, :stuff_id, replies_attributes: [:body])
   end
 
-  def set_waiting_customer
-    params[:ticket][:status] = 'waiting_for_customer' if ticket_params[:status] == 'waiting_for_stuff_response'
+  def set_waiting_customer       
+    (params[:ticket][:status] = 'waiting_for_customer' if @ticket.status == 'waiting_for_stuff_response') unless params[:ticket][:status]      
   end
 
   def load_ticket

@@ -1,4 +1,4 @@
-class SessionsController < ApplicationController
+class SessionsController < ApplicationController  
   before_action :authorize, only:[:destroy]
   before_action :set_stuff, only:[:create]
   

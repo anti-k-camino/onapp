@@ -19,9 +19,10 @@ RSpec.describe SessionsController, type: :controller do
         expect(response).to redirect_to opened_dashboard_path
       end
     end
+    
     context 'non existing user' do      
 
-      it 'should create a session with stuff id' do 
+      it 'should not create a session with stuff id' do 
         post :create, name: 'nname', password: '654321'
         expect(session[:stuff_id].present?).to be_falsy
       end
