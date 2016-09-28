@@ -6,7 +6,7 @@ class StuffsController< ApplicationController
     @stuff = Stuff.new(stuff_params)
     if @stuff.save
       session[:stuff_id] = @stuff.id
-      redirect_to '/'
+      redirect_to opened_dashboard_path
     else
       redirect_to '/signup'
     end

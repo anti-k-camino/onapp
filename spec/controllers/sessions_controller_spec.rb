@@ -12,13 +12,8 @@ RSpec.describe SessionsController, type: :controller do
       it 'should create a session with stuff id' do 
         post :create, name: stuff.name, password: stuff.password
         expect(session[:stuff_id]).to eq stuff.id
-      end
-=begin
-      it 'should create authenticity_token' do
-        post :create, name: stuff.name, password: stuff.password
-        expect(authenticity_token.present?).to be_truthy
-      end
-=end
+      end      
+
       it 'should redirect to root path' do
         post :create, name: stuff.name, password: stuff.password
         expect(response).to redirect_to opened_dashboard_path
@@ -36,5 +31,22 @@ RSpec.describe SessionsController, type: :controller do
         expect(response).to redirect_to login_path
       end
     end
+  end
+
+  describe 'GET#destroy' do
+    context 'Authenticated stuff' do
+      let!(:stuff){ create :stuff }
+      sign_in_stuff
+
+      before { get :destroy, id: stuff.id }      
+      
+      it "should should delete session's stuff_id" do        
+        expect(session[:stuff_id]).to eq nil
+      end
+
+      it "should redirect to root path" do
+        expect(response).to redirect_to login_path
+      end
+    end    
   end
 end
