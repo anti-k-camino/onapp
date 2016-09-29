@@ -9,8 +9,11 @@
     .col-sm-7
       .panel.panel-default
         -@ticket.versions.each do |v|
-          .panel.panel-defaut.history
-            p=v.current_status if v.current_status
-            p=Stuff.find(id: v.stuff_id).name if v.stuff_id
+          .panel.panel-defaut.history            
+            =Reply.track_ownership(v.changeset)
+            p
+              =v.changeset["stuff_id"][1] if v.changeset["stuff_id"].present?
+            
+            
             
   

@@ -3,6 +3,9 @@
     p
       = f.label :status, class: 'label_hidden'
       = f.select :status, Ticket.statuses.keys, {}, {class:'form-control'}
+    p 
+      =f.label :stuff_id, class: 'label_hidden'
+      =f.collection_select :stuff_id, Stuff.all, :id, :name, {}, {class:'form-control'}
     p      
       =render 'replies/form', f: f
       = f.submit "Submit"
