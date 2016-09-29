@@ -131,17 +131,33 @@ RSpec.describe TicketsController, type: :controller do
       it 'should create a new reply for ticket' do
         expect{ patch :stuff_update, id: ticket, ticket:{ replies_attributes: [body: 'Awesome response']}, format: :js }.to change(ticket.replies, :count).by(1)
       end
+      context 'status' do
+        it 'should set status to waiting for customer response if curr. status equals to waiting for stuff' do        
+          patch :stuff_update, id: ticket, ticket:{ replies_attributes: [body: 'Awesome response'] }
+          ticket.reload
+          expect(ticket.current_status).to eq 'Waiting for customer'
+        end
 
-      it 'should set status to waiting for customer response if curr. status equals to waiting for stuff' do        
-        patch :stuff_update, id: ticket, ticket:{ replies_attributes: [body: 'Awesome response'] }
-        ticket.reload
-        expect(ticket.current_status).to eq 'Waiting for customer'
+         it 'should not set status to waiting for customer response if status is set in params' do        
+          patch :stuff_update, id: ticket, ticket:{ status: 'completed', replies_attributes: [body: 'Awesome response'] }        
+          ticket.reload
+          expect(ticket.current_status).to eq 'Completed'
+        end
       end
+      context 'owner' do
+        let!(:another_stuff){ create :stuff }
 
-       it 'should not set status to waiting for customer response if status is set in params' do        
-        patch :stuff_update, id: ticket, ticket:{ status: 'completed', replies_attributes: [body: 'Awesome response'] }        
-        ticket.reload
-        expect(ticket.current_status).to eq 'Completed'
+        it 'should set owner to current stuff if params stuff is not mentioned' do
+          patch :stuff_update, id: ticket, ticket:{ replies_attributes: [body: 'Awesome response'] }
+          ticket.reload
+          expect(ticket.stuff_id).to eq @stuff.id
+        end
+
+        it 'should set owner to stuff if params smentioned in params' do
+          patch :stuff_update, id: ticket, ticket:{ stuff_id: another_stuff.id, replies_attributes: [body: 'Awesome response'] }
+          ticket.reload
+          expect(ticket.stuff_id).to eq another_stuff.id
+        end
       end
     end
 

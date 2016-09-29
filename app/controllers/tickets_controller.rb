@@ -2,6 +2,7 @@ class TicketsController < ApplicationController
   before_action :authorize, only:[:stuff_update]  
   before_action :load_ticket, only:[:show, :update, :stuff_update, :edit]
   before_action :set_waiting_customer, only:[:stuff_update]
+  before_action :set_owner, only:[:stuff_update]
 
   after_action only:[:create, :update] do
     create_mail(:creation_email)
@@ -34,6 +35,10 @@ class TicketsController < ApplicationController
   def ticket_params
     params.require(:ticket).permit(:name, :subject, :email, :status, :body, :department, :stuff_id, replies_attributes: [:body])
   end
+
+  def set_owner
+    (params[:ticket][:stuff_id] = current_stuff.id if @ticket.stuff_id.blank?) unless params[:ticket][:stuff_id] 
+  end  
 
   def set_waiting_customer       
     (params[:ticket][:status] = 'waiting_for_customer' if @ticket.status == 'waiting_for_stuff_response') unless params[:ticket][:status]      
