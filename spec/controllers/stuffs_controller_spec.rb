@@ -40,5 +40,6 @@ RSpec.describe StuffsController, type: :controller do
         expect(response).to redirect_to signup_path
       end
     end
-  end
+  end 
+ 
 end

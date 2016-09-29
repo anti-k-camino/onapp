@@ -37,8 +37,7 @@ RSpec.describe TicketsController, type: :controller do
         expect(Ticket.last.body).to eq 'somebody'
       end
 
-      it 'should create a random id for a ticket' do
-        #expect{ post :create, ticket: { name: 'name', subject: 'subject', department: 1, body: 'body', email: 'some@we.com' }, format: :js }.to change(Ticket, :count).by(1)
+      it 'should create a random id for a ticket' do        
         post :create, ticket: { name: 'name', subject: 'subject', department: 1, body: 'body', email: 'some@we.com' }, format: :js
         expect(Ticket.last.random_id.blank?).to be_falsy 
       end
