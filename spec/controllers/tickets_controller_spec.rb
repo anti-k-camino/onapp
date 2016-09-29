@@ -18,40 +18,43 @@ RSpec.describe TicketsController, type: :controller do
 
   describe 'POST #create' do
     context 'valid_attributes' do
+      let!(:department){ create :department }
+
       it 'should call create_mail' do
         expect(TicketMailer).to receive(:creation_email).and_call_original
-        post :create, ticket: attributes_for(:ticket), format: :js     
+        post :create, ticket: attributes_for(:ticket, department_id: department.id ), format: :js     
       end
 
       it 'should create a ticket' do
-        expect{ post :create, ticket: attributes_for(:ticket), format: :js }.to change(Ticket, :count).by(1)
+        expect{ post :create, ticket: attributes_for(:ticket, department_id: department.id), format: :js }.to change(Ticket, :count).by(1)
       end
 
       it 'should create a ticket with right name' do
-        post :create, ticket: attributes_for(:ticket), format: :js
+        post :create, ticket: attributes_for(:ticket, department_id: department.id), format: :js
         expect(Ticket.last.name).to eq 'somename'
       end
 
       it 'should create a ticket with right email' do
-        post :create, ticket: attributes_for(:ticket), format: :js
+        post :create, ticket: attributes_for(:ticket, department_id: department.id), format: :js
         expect(Ticket.last.body).to eq 'somebody'
       end
 
       it 'should create a random id for a ticket' do        
-        post :create, ticket: { name: 'name', subject: 'subject', department: 'dept1', body: 'body', email: 'some@we.com' }, format: :js
+        post :create, ticket: { name: 'namee', subject: 'subjecte', department_id: department.id, body: 'body', email: 'some@we.com' }, format: :js
         expect(Ticket.last.random_id.blank?).to be_falsy 
       end
 
       it 'should render view create' do
-        post :create, ticket: attributes_for(:ticket), format: :js
+        post :create, ticket: attributes_for(:ticket, department_id: department.id), format: :js
         expect(response).to render_template :create
       end
+
     end
 
     context 'invalid attributes' do
       it 'should not trigger create_mail' do
         expect(TicketMailer).to_not receive(:creation_email).and_call_original
-        post :create, ticket: { subject: 'subject', department: 1, body: 'body', email: 'some@we.com' }, format: :js     
+        post :create, ticket: { subject: 'subject', body: 'body', email: 'some@we.com' }, format: :js     
       end
 
       it 'should not create a ticket' do
@@ -62,7 +65,9 @@ RSpec.describe TicketsController, type: :controller do
         post :create, ticket: attributes_for(:ticket), format: :js
         expect(response).to render_template :create
       end
+
     end
+
   end
   
   describe 'PATCH#update' do
@@ -90,23 +95,6 @@ RSpec.describe TicketsController, type: :controller do
     it 'should not save a version of update', versioning: true do
     end
 
-=begin
-    it 'should  not create a new history when status is not updated' do
-      expect{ patch :update, id: ticket, ticket:{ status: 0 }, format: :js }.to_not change(ticket.histories, :count)     
-    end
-
-    it 'should create a new history when updating status' do
-      expect{ patch :update, id: ticket, ticket:{ status: 2 }, format: :js }.to change(ticket.histories, :count).by(1)     
-    end
-
-    it 'should create a new history when updating status' do
-      expect{ patch :update, id: ticket, ticket:{ stuff_id: stuff.id }, format: :js }.to change(ticket.histories, :count).by(1)     
-    end
-
-    it 'should not create a new history when updating others' do
-      expect{ patch :update, id: ticket, ticket:{ body: 'Some new body'}, format: :js }.to_not change(ticket.histories, :count)
-    end
-=end
     it 'should render view update' do
       patch :update, id: ticket, ticket:{ body: 'Some new body'}, format: :js
       expect(response).to render_template :update
@@ -175,5 +163,6 @@ RSpec.describe TicketsController, type: :controller do
       end
     end    
   end
+
 
 end

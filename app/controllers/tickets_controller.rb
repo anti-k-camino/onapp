@@ -33,7 +33,7 @@ class TicketsController < ApplicationController
 
   protected
   def ticket_params
-    params.require(:ticket).permit(:name, :subject, :email, :status, :body, :department, :stuff_id, replies_attributes: [:body])
+    params.require(:ticket).permit(:name, :subject, :email, :status, :body, :department_id, :stuff_id, replies_attributes: [:body])
   end
 
   def set_owner

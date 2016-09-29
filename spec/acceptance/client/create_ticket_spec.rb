@@ -5,11 +5,13 @@ feature 'Guest should submit a query', %q{
   as a guest user
   I want to submit a ticket query 
 } do
-  scenario 'guest user submits ticket query with valid attributes', js: true  do
+  let!(:department1){ create :department, title: 'dept1'}
+  let!(:department2){ create :department, title: 'dept2'}
+  scenario 'guest user submits ticket query with valid attributes', js: true  do    
     visit root_path
     fill_in 'Name', with: 'somename'
     fill_in 'Email', with: 'some@email.com'
-    select 'dept1', from: "ticket[department]"
+    select 'dept1', from: "ticket[department_id]"
     fill_in 'Subject', with: 'bla-bla-bla'
     fill_in 'Body', with: 'somebody))'
 
@@ -25,7 +27,7 @@ feature 'Guest should submit a query', %q{
    scenario 'guest user submits ticket query with invalid attributes', js: true  do
     visit root_path    
     fill_in 'Email', with: 'some@email.com'
-    select 'dept2', from: "ticket[department]"
+    select 'dept2', from: "ticket[department_id]"
     fill_in 'Subject', with: 'bla-bla-bla'
     fill_in 'Body', with: 'somebody))'
 

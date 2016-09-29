@@ -7,9 +7,9 @@
         p  
           = f.label :email, class: 'label_hidden' 
           = f.email_field :email, placeholder:'Input your email', class:'form-control'
-        p  
-          = f.label :department, class: 'label_hidden'
-          = f.select :department, Ticket.departments.keys, {}, {class:'form-control'}        
+        p          
+          =f.label :department, class: 'label_hidden'
+          =f.collection_select :department_id, Department.all, :id, :title, {}, {class:'form-control'}       
         p 
           = f.label :subject, class: 'label_hidden' 
           = f.text_field :subject, placeholder:'Input subject of a ticket', class:'form-control'

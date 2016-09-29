@@ -11,19 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160929123736) do
+ActiveRecord::Schema.define(version: 20160929172812) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "histories", force: :cascade do |t|
-    t.integer  "ticket_id"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-    t.text     "event",      default: "", null: false
+  create_table "departments", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "title"
   end
 
-  add_index "histories", ["ticket_id"], name: "index_histories_on_ticket_id", using: :btree
+  add_index "departments", ["title"], name: "index_departments_on_title", unique: true, using: :btree
 
   create_table "replies", force: :cascade do |t|
     t.text     "body"
@@ -44,18 +43,19 @@ ActiveRecord::Schema.define(version: 20160929123736) do
   add_index "stuffs", ["name"], name: "index_stuffs_on_name", unique: true, using: :btree
 
   create_table "tickets", force: :cascade do |t|
-    t.string   "name",       default: "", null: false
-    t.string   "email",      default: "", null: false
-    t.string   "subject",    default: "", null: false
-    t.text     "body",       default: "", null: false
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-    t.string   "random_id",               null: false
+    t.string   "name",          default: "", null: false
+    t.string   "email",         default: "", null: false
+    t.string   "subject",       default: "", null: false
+    t.text     "body",          default: "", null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.string   "random_id",                  null: false
     t.integer  "stuff_id"
-    t.integer  "department",              null: false
-    t.integer  "status",     default: 0,  null: false
+    t.integer  "status",        default: 0,  null: false
+    t.integer  "department_id"
   end
 
+  add_index "tickets", ["department_id"], name: "index_tickets_on_department_id", using: :btree
   add_index "tickets", ["email"], name: "index_tickets_on_email", using: :btree
   add_index "tickets", ["random_id"], name: "index_tickets_on_random_id", using: :btree
   add_index "tickets", ["status"], name: "index_tickets_on_status", using: :btree

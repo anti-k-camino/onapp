@@ -7,11 +7,11 @@ FactoryGirl.define do
   end
   factory :ticket do
     name 'somename'
-    email 
-    department 0
+    email    
     status 0
     random_id 
     subject 'somesubject'
     body 'somebody'    
-  end  
+    department { create(:department) } 
+  end
 end
