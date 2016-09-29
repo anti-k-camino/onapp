@@ -11,15 +11,15 @@ RSpec.describe Ticket, type: :model do
   #it { should have_many :histories }
 
   describe '.dept' do
-    let!(:ticket){ create :ticket, department: 2 }
+    let!(:ticket){ create :ticket, department: 'dept2' }
 
     it 'should return right dept' do
-      expect(ticket.dept).to eq 'Dept3'
+      expect(ticket.dept).to eq 'Dept2'
     end
   end
 
   describe '.current_status' do
-    let!(:ticket){ create :ticket, status: 2 }
+    let!(:ticket){ create :ticket, status: 'on_hold' }
 
     it 'should return right dept' do
       expect(ticket.current_status).to eq 'On hold'
@@ -28,10 +28,10 @@ RSpec.describe Ticket, type: :model do
 
   describe '.opened' do
     let!(:ticket){ create :ticket, status: 'canceled' }
-    let!(:ticket1){ create :ticket, status: 0 }
-    let!(:ticket2){ create :ticket, status: 2 }
+    let!(:ticket1){ create :ticket, status: 'waiting_for_stuff_response' }
+    let!(:ticket2){ create :ticket, status: 'on_hold' }
     let!(:ticket3){ create :ticket, status: 'completed' }
-    let!(:ticket4){ create :ticket, status: 1 }
+    let!(:ticket4){ create :ticket, status: 'waiting_for_customer' }
 
     it 'should not return canceled or completed' do 
       expect(Ticket.opened.include?(ticket)).to be_falsy
@@ -93,23 +93,7 @@ RSpec.describe Ticket, type: :model do
     it 'should not return other statuses' do
       expect(Ticket.onhold.include?(tickets[0])).to be_falsy
     end
-  end
-
-  describe '.onhold' do
-    let!(:tickets){ create_list :ticket, 3 }
-
-    before do
-      tickets[1].update(status: 'on_hold')
-    end
-
-    it 'should return only on_hold tickets' do      
-      expect(Ticket.onhold).to eq [tickets[1]]
-    end
-
-    it 'should not return other statuses' do
-      expect(Ticket.onhold.include?(tickets[0])).to be_falsy
-    end
-  end
+  end 
 =begin
   describe "`have_a_version_with` matcher" do
     let!(:ticket){ create :ticket } 
@@ -123,10 +107,10 @@ RSpec.describe Ticket, type: :model do
 =end
   describe '.closed' do
     let!(:ticket){ create :ticket, status: 'canceled' }
-    let!(:ticket1){ create :ticket, status: 0 }
-    let!(:ticket2){ create :ticket, status: 2 }
+    let!(:ticket1){ create :ticket, status: 'waiting_for_stuff_response' }
+    let!(:ticket2){ create :ticket, status: 'on_hold' }
     let!(:ticket3){ create :ticket, status: 'completed' }
-    let!(:ticket4){ create :ticket, status: 1 }
+    let!(:ticket4){ create :ticket, status: 'waiting_for_customer' }
 
     it 'should not return canceled or completed' do 
       expect(Ticket.closed.include?(ticket1)).to be_falsy

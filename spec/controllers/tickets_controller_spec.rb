@@ -38,7 +38,7 @@ RSpec.describe TicketsController, type: :controller do
       end
 
       it 'should create a random id for a ticket' do        
-        post :create, ticket: { name: 'name', subject: 'subject', department: 1, body: 'body', email: 'some@we.com' }, format: :js
+        post :create, ticket: { name: 'name', subject: 'subject', department: 'dept1', body: 'body', email: 'some@we.com' }, format: :js
         expect(Ticket.last.random_id.blank?).to be_falsy 
       end
 
@@ -55,7 +55,7 @@ RSpec.describe TicketsController, type: :controller do
       end
 
       it 'should not create a ticket' do
-        expect{ post :create, ticket: { subject: 'subject', department: 1, body: 'body', email: 'some@we.com' }, format: :js }.to_not change(Ticket, :count)
+        expect{ post :create, ticket: { subject: 'subject', department: 'dept1', body: 'body', email: 'some@we.com' }, format: :js }.to_not change(Ticket, :count)
       end   
 
       it 'should render view create' do
