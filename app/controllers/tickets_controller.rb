@@ -1,9 +1,9 @@
 class TicketsController < ApplicationController
-  before_action :authorize, only:[:stuff_update]  
+  before_action :authenticate_stuff!, only:[:stuff_update]  
   before_action :load_ticket, only:[:show, :update, :stuff_update]
   before_action :check_update_validness, only:[:update]  
   after_action :set_waiting_stuff, only:[:update] 
-   
+
   before_action :set_waiting_customer, only:[:stuff_update]
   before_action :set_owner, only:[:stuff_update]
 
@@ -16,6 +16,8 @@ class TicketsController < ApplicationController
   end
     
   respond_to :js
+
+  authorize_resource
 
   def create    
     respond_with @ticket = Ticket.create(ticket_params)
@@ -40,6 +42,12 @@ class TicketsController < ApplicationController
     return if @ticket.guest_update_avilable?
     flash[:notice] = "Ticket status is #{@ticket.status.state}, please wait"
     render :update and return  
+  end
+
+  def check_stuff_update_validness
+    return if !@ticket.guest_update_avilable? || !current_stuff.owner_of? @ticket
+    flash[:notice] = "Ticket status is #{@ticket.status.state}, please wait"
+
   end
 
   def ticket_params

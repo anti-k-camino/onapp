@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController  
-  before_action :authorize, only:[:destroy]
+  before_action :authenticate_stuff!, only:[:destroy]
   before_action :set_stuff, only:[:create]
   
   def create    

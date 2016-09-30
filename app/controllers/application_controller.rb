@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   end
   helper_method :current_stuff
 
-  def authorize
-    redirect_to '/login' unless current_stuff
+  def authenticate_stuff!
+    redirect_to login_path unless current_stuff
   end
 end

@@ -1,5 +1,5 @@
 class DashboardsController < ApplicationController
-  before_action :authorize  
+  before_action :authenticate_stuff!  
   before_action :method
 
   def unassigned        
