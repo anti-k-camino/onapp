@@ -151,8 +151,13 @@ RSpec.describe TicketsController, type: :controller do
         let!(:unavailable_ticket){ create :ticket, status: status, stuff: another_stuff }
 
         it "should check availability of update" do
-          expect(controller).to receive(:check_stuff_update_validness)
+          expect(controller).to receive(:check_update_validness)
           patch :stuff_update, id: ticket, ticket:{ replies_attributes: [body: 'Awesome response'] }, format: :js         
+        end
+
+        it 'should call create_mail' do
+          expect(controller).to receive(:create_mail).with(:stuff_reply)
+          patch :stuff_update, id: ticket, ticket:{ replies_attributes: [body: 'Awesome response'] }, format: :js              
         end
 
         it 'should assign ticket to @ticket' do
@@ -162,6 +167,10 @@ RSpec.describe TicketsController, type: :controller do
 
         it 'should not create a new ticket' do
           expect{ patch :stuff_update, id: ticket, ticket:{ replies_attributes: [body: 'Awesome response']}, format: :js }.to_not change(Ticket, :count)
+        end
+
+        it 'should create a new reply for ticket' do
+          expect{ patch :stuff_update, id: ticket, ticket:{ replies_attributes: [body: 'Awesome response']}, format: :js }.to change(ticket.replies, :count).by(1)
         end        
         
       end
