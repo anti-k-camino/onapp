@@ -75,35 +75,46 @@ RSpec.describe TicketsController, type: :controller do
 
  
   describe 'PATCH#update' do
-    let!(:status){ create :status, state: 'waiting for stuff response'}
+    let!(:status){ create :status, state: 'waiting for customer'}
     let!(:ticket){ create :ticket, status: status }
+    let!(:unavailable_status){ create :status, state: 'on hold'}
+    let!(:unavailable_ticket){ create :ticket, status: unavailable_status }
     let!(:stuff){ create :stuff }
 
-    it 'should call create_mail' do
-      expect(TicketMailer).to receive(:creation_email).and_call_original
-      patch :update, id: ticket, ticket:{ body: 'Some new body'}, format: :js     
+    context 'available' do      
+      it 'should call create_mail' do
+        expect(controller).to receive(:create_mail).with(:creation_email)
+        patch :update, id: ticket, ticket:{ body: 'Some new body'}, format: :js     
+      end
+
+      it "should check availability of update" do
+        expect(controller).to receive(:check_update_validness)
+        patch :update, id: ticket, ticket:{ body: 'Some new body'}, format: :js         
+      end
+
+      it "should set ticket's status to waiting for stuff response" do
+        expect(controller).to receive(:set_waiting_stuff)
+        patch :update, id: ticket, ticket:{ body: 'Some new body'}, format: :js         
+      end     
+
+      it 'should not create a new ticket' do
+        expect{ patch :update, id: ticket, ticket:{ body: 'Some new body' }, format: :js }.to_not change(Ticket, :count)
+      end
+
+      #it 'should not save a version of update', versioning: true do
+      #  expect{ patch :update, id: ticket, ticket:{ body: 'Some new body' }, format: :js }.to change(ticket.versions, :count).by(1)
+      #end
+
+      it 'should not save a version of update', versioning: true do
+      end
+
+      it 'should render view update' do
+        patch :update, id: ticket, ticket:{ body: 'Some new body'}, format: :js
+        expect(response).to render_template :update
+      end
     end
 
-    it "should set ticket's status to waiting for stuff response" do
-      patch :update, id: ticket, ticket:{ body: 'Some new body'}, format: :js 
-      expect(Ticket.last.current_status).to eq 'Waiting for stuff response' 
-    end
-
-    it 'should not create a new ticket' do
-      expect{ patch :update, id: ticket, ticket:{ body: 'Some new body'}, format: :js }.to_not change(Ticket, :count)
-    end
-
-    it 'should not save a version of update', versioning: true do
-      expect{ patch :update, id: ticket, ticket:{ body: 'Some new body'}, format: :js }.to change(ticket.versions, :count).by(1)
-    end
-
-    it 'should not save a version of update', versioning: true do
-    end
-
-    it 'should render view update' do
-      patch :update, id: ticket, ticket:{ body: 'Some new body'}, format: :js
-      expect(response).to render_template :update
-    end
+    
 
   end 
 =begin 
