@@ -2,8 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Ticket, type: :model do
   it { should validate_presence_of :name }
-  it { should validate_presence_of :subject }
-  it { should validate_presence_of :random_id }
+  it { should validate_presence_of :subject }  
   it { should validate_presence_of :department_id }
   it { should validate_presence_of :status_id }
   it { should have_many :replies }
@@ -66,7 +65,32 @@ RSpec.describe Ticket, type: :model do
       end                
     end    
   end
+
+  describe '#guest_update_avilable?' do
+
+    let!(:status){ create :status, state: 'waiting for customer' }
+    let!(:unavailable_status1){ create :status, state: 'waiting for stuff response' }
+    let!(:unavailable_status2){ create :status, state: 'on hold' }
+    let!(:ticket){ create :ticket, status: status }
+    let!(:unavailable_ticket1){ create :ticket, status: unavailable_status1 }
+    let!(:unavailable_ticket2){ create :ticket, status: unavailable_status2 }
+    
+    it 'should retun true if status is waiting for customer' do
+      expect(ticket.guest_update_avilable?).to be_truthy
+    end
+
+    it 'should retun true if status is waiting for customer' do
+      expect(unavailable_ticket1.guest_update_avilable?).to be_falsy
+    end
+
+    it 'should retun true if status is waiting for customer' do
+      expect(unavailable_ticket2.guest_update_avilable?).to be_falsy
+    end
+
+  end
 end
+
+
 =begin
   describe "`have_a_version_with` matcher" do
     let!(:ticket){ create :ticket } 

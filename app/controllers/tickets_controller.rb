@@ -1,6 +1,8 @@
 class TicketsController < ApplicationController
   before_action :authorize, only:[:stuff_update]  
-  before_action :load_ticket, only:[:show, :update, :stuff_update]
+  before_action :load_ticket, only:[:show, :update, :stuff_update]  
+  before_action :set_waiting_stuff, only:[:update]
+  before_action :check_update_validness, only:[:update]
   before_action :set_waiting_customer, only:[:stuff_update]
   before_action :set_owner, only:[:stuff_update]
 
@@ -19,7 +21,7 @@ class TicketsController < ApplicationController
   end
 
   def update        
-    @ticket.update(ticket_params.merge(status: 0))
+    @ticket.update(ticket_params)
     flash[:notice] = 'Your ticket successfully updated.'  
   end
 
@@ -32,8 +34,18 @@ class TicketsController < ApplicationController
   end
 
   protected
+  def check_update_validness
+    unless @ticket.guest_update_avilable?
+      flash[:notice] = "Ticket status is #{@ticket.status.state}, please wait"
+      render :update and return 
+    end
+  end
   def ticket_params
-    params.require(:ticket).permit(:name, :subject, :email, :status, :body, :department_id, :stuff_id, replies_attributes: [:body])
+    params.require(:ticket).permit(:name, :subject, :email, :status_id, :body, :department_id, :stuff_id, replies_attributes: [:body])
+  end
+
+  def set_waiting_stuff
+    @ticket.status = Status.waiting_for_stuff_response
   end
 
   def set_owner

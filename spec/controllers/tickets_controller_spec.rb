@@ -70,14 +70,13 @@ RSpec.describe TicketsController, type: :controller do
         post :create, ticket: attributes_for(:ticket), format: :js
         expect(response).to render_template :create
       end
-
     end
-
   end
 
-=begin  
+ 
   describe 'PATCH#update' do
-    let!(:ticket){ create :ticket, status: 1 }
+    let!(:status){ create :status, state: 'waiting for stuff response'}
+    let!(:ticket){ create :ticket, status: status }
     let!(:stuff){ create :stuff }
 
     it 'should call create_mail' do
@@ -107,7 +106,7 @@ RSpec.describe TicketsController, type: :controller do
     end
 
   end 
-
+=begin 
   describe 'PATCH#stuff_update' do
     context 'Authenticated stuff' do
       let!(:ticket){ create :ticket }
