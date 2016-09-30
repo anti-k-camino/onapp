@@ -5,7 +5,7 @@ class TicketsController < ApplicationController
   after_action :set_waiting_stuff, only:[:update] 
 
 
-  before_action :set_waiting_customer, only:[:stuff_update]
+  after_action :set_waiting_customer, only:[:stuff_update]
   before_action :set_owner, only:[:stuff_update]
 
   after_action only:[:create, :update] do
@@ -58,7 +58,7 @@ class TicketsController < ApplicationController
   end  
 
   def set_waiting_customer       
-    (params[:ticket][:status] = 'waiting_for_customer' if @ticket.status == 'waiting_for_stuff_response') unless params[:ticket][:status]      
+    @ticket.update(status: Status.waiting_for_customer) if @ticket.status == Status.waiting_for_stuff_response      
   end
 
   def load_ticket

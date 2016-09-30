@@ -204,6 +204,12 @@ RSpec.describe TicketsController, type: :controller do
             not_owned_ticket.reload 
             expect( not_owned_ticket.stuff_id ).to eq another_stuff.id
           end
+
+          it 'should change status to waiting for customer' do
+            expect(controller).to receive(:set_waiting_customer)
+            patch :stuff_update, id: not_owned_ticket.id, ticket:{ stuff_id: another_stuff.id, replies_attributes: [body: 'Awesome response']}, format: :js      
+           
+          end
         end
 
                
