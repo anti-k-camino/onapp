@@ -18,7 +18,7 @@ class Ticket < ActiveRecord::Base
 
   def guest_update_avilable?
     status.state == 'waiting for customer'
-  end 
+  end  
 
   def self.unassigned    
     joins(:status).where("state = 'waiting for stuff response'")

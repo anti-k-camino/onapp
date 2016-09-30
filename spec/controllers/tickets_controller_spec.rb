@@ -136,6 +136,11 @@ RSpec.describe TicketsController, type: :controller do
         expect{ patch :update, id: unavailable_ticket, ticket:{ body: 'Some new body' }, format: :js }.to_not change(Ticket, :count)
       end
 
+      it 'should call checking owner' do
+        expect(controller).to_not receive(:set_owner)
+        patch :update, id: unavailable_ticket, ticket:{ body: 'Some new body'}, format: :js
+      end
+
     end   
 
   end 
@@ -149,6 +154,7 @@ RSpec.describe TicketsController, type: :controller do
         let!(:ticket){ create :ticket, status: status, stuff: @stuff }
         let!(:another_stuff){ create :stuff }
         let!(:unavailable_ticket){ create :ticket, status: status, stuff: another_stuff }
+        let!(:not_owned_ticket){ create :ticket, status: status, stuff: nil }
 
         it "should check availability of update" do
           expect(controller).to receive(:check_update_validness)
@@ -171,7 +177,36 @@ RSpec.describe TicketsController, type: :controller do
 
         it 'should create a new reply for ticket' do
           expect{ patch :stuff_update, id: ticket, ticket:{ replies_attributes: [body: 'Awesome response']}, format: :js }.to change(ticket.replies, :count).by(1)
-        end        
+        end 
+
+        context 'owned ticket' do
+          it 'should not change the owner when not mentioned in params' do
+            patch :stuff_update, id: ticket, ticket:{ replies_attributes: [body: 'Awesome response']}, format: :js 
+            expect( ticket.stuff_id ).to eq @stuff.id
+          end
+
+          it 'should change the owner when mentioned in params' do
+            patch :stuff_update, id: ticket, ticket:{ stuff_id: another_stuff.id, replies_attributes: [body: 'Awesome response']}, format: :js
+            ticket.reload 
+            expect( ticket.stuff_id ).to eq another_stuff.id
+          end
+        end
+
+        context 'not owned ticket' do
+          it 'should set owner to current stuff when not mentioned in params' do            
+            patch :stuff_update, id: not_owned_ticket.id, ticket:{ replies_attributes: [body: 'Awesome response']}, format: :js
+            not_owned_ticket.reload 
+            expect( not_owned_ticket.stuff_id ).to eq @stuff.id
+          end
+
+          it 'should change the owner when mentioned in params' do
+            patch :stuff_update, id: not_owned_ticket.id, ticket:{ stuff_id: another_stuff.id, replies_attributes: [body: 'Awesome response']}, format: :js
+            not_owned_ticket.reload 
+            expect( not_owned_ticket.stuff_id ).to eq another_stuff.id
+          end
+        end
+
+               
         
       end
     end

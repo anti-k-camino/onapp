@@ -1,8 +1,7 @@
 class TicketsController < ApplicationController
   before_action :authenticate_stuff!, only:[:stuff_update]  
   before_action :load_ticket, only:[:show, :update, :stuff_update]
-  before_action :check_update_validness, only:[:update, :stuff_update]
-  #before_action :check_stuff_update_validness, only:[:stuff_update]  
+  before_action :check_update_validness, only:[:update, :stuff_update]  
   after_action :set_waiting_stuff, only:[:update] 
 
 
@@ -39,27 +38,13 @@ class TicketsController < ApplicationController
   end
 
   protected
-=begin
-  def check_update_validness    
-    return if @ticket.guest_update_avilable?
-    flash[:notice] = "Ticket status is #{@ticket.status.state}, please wait"    
-    render :update and return  
-  end
-=end
+
   def check_update_validness
     current_stuff ? ( return if !@ticket.guest_update_avilable? ) : ( return if @ticket.guest_update_avilable? )    
     flash[:notice] = "Ticket status is #{@ticket.status.state}, please wait"    
     render "#{action_name}".to_sym and return  
   end
 
-
-=begin
-  def check_stuff_update_validness
-    return if(!@ticket.guest_update_avilable?)
-    flash[:notice] = "Ticket status is #{@ticket.status.state}, please wait"
-    render :stuff_update and return
-  end
-=end
   def ticket_params
     params.require(:ticket).permit(:name, :subject, :email, :status_id, :body, :department_id, :stuff_id, replies_attributes: [:body])
   end
@@ -69,7 +54,7 @@ class TicketsController < ApplicationController
   end
 
   def set_owner
-    (params[:ticket][:stuff_id] = current_stuff.id if @ticket.stuff_id.blank?) unless params[:ticket][:stuff_id] 
+    (@ticket.stuff_id = current_stuff.id if @ticket.stuff_id.blank?) unless params[:ticket][:stuff_id] 
   end  
 
   def set_waiting_customer       
