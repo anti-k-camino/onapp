@@ -21,8 +21,8 @@ class TicketsController < ApplicationController
   end
 
   def update        
-    @ticket.update!(ticket_params)
-    flash[:notice] = 'Your ticket successfully updated.'  
+    @ticket.update(ticket_params)
+    respond_with @ticket 
   end
 
   def stuff_update                
