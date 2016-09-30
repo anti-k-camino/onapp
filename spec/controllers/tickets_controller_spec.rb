@@ -142,10 +142,9 @@ RSpec.describe TicketsController, type: :controller do
 
   describe 'PATCH#stuff_update' do
     context 'Authenticated stuff' do
-
       sign_in_stuff
-
       context 'owner of a ticket' do
+
         let!(:status){ create :status, state: 'waiting for stuff response'}
         let!(:ticket){ create :ticket, status: status, stuff: @stuff }
         let!(:stuff){ create :stuff }
@@ -159,6 +158,8 @@ RSpec.describe TicketsController, type: :controller do
         
       end
     end
+  end
+end
 
       
 
@@ -218,7 +219,4 @@ RSpec.describe TicketsController, type: :controller do
       end
     end 
 =end   
-  end
-
-
-end
+ 

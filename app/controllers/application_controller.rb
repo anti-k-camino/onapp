@@ -16,4 +16,8 @@ class ApplicationController < ActionController::Base
   def authenticate_stuff!
     redirect_to login_path unless current_stuff
   end
+
+  def current_ability
+    @current_ability ||= Ability.new(current_stuff)
+  end
 end

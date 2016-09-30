@@ -41,13 +41,13 @@ class TicketsController < ApplicationController
   def check_update_validness    
     return if @ticket.guest_update_avilable?
     flash[:notice] = "Ticket status is #{@ticket.status.state}, please wait"
+   
     render :update and return  
   end
 
   def check_stuff_update_validness
-    return if !@ticket.guest_update_avilable? || !current_stuff.owner_of? @ticket
+    return if(!@ticket.guest_update_avilable? || !current_stuff.owner_of?(@ticket))
     flash[:notice] = "Ticket status is #{@ticket.status.state}, please wait"
-
   end
 
   def ticket_params
