@@ -1,8 +1,10 @@
 class TicketsController < ApplicationController
   before_action :authenticate_stuff!, only:[:stuff_update]  
   before_action :load_ticket, only:[:show, :update, :stuff_update]
-  before_action :check_update_validness, only:[:update]  
+  before_action :check_update_validness, only:[:update]
+  before_action :check_stuff_update_validness, only:[:stuff_update]  
   after_action :set_waiting_stuff, only:[:update] 
+
 
   before_action :set_waiting_customer, only:[:stuff_update]
   before_action :set_owner, only:[:stuff_update]
@@ -40,14 +42,14 @@ class TicketsController < ApplicationController
 
   def check_update_validness    
     return if @ticket.guest_update_avilable?
-    flash[:notice] = "Ticket status is #{@ticket.status.state}, please wait"
-   
+    flash[:notice] = "Ticket status is #{@ticket.status.state}, please wait"    
     render :update and return  
   end
 
   def check_stuff_update_validness
-    return if(!@ticket.guest_update_avilable? || !current_stuff.owner_of?(@ticket))
+    return if(!@ticket.guest_update_avilable?)
     flash[:notice] = "Ticket status is #{@ticket.status.state}, please wait"
+    render :stuff_update and return
   end
 
   def ticket_params

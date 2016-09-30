@@ -147,14 +147,22 @@ RSpec.describe TicketsController, type: :controller do
 
         let!(:status){ create :status, state: 'waiting for stuff response'}
         let!(:ticket){ create :ticket, status: status, stuff: @stuff }
-        let!(:stuff){ create :stuff }
-        let!(:unavailable_ticket){ create :ticket, status: status, stuff: stuff }
+        let!(:another_stuff){ create :stuff }
+        let!(:unavailable_ticket){ create :ticket, status: status, stuff: another_stuff }
+
+        it "should check availability of update" do
+          expect(controller).to receive(:check_stuff_update_validness)
+          patch :stuff_update, id: ticket, ticket:{ replies_attributes: [body: 'Awesome response'] }, format: :js         
+        end
 
         it 'should assign ticket to @ticket' do
-          patch :stuff_update, id: ticket, ticket:{ replies_attributes: [body: 'Awesome response']}, format: :js
+          patch :stuff_update, id: ticket, ticket:{ replies_attributes: [body: 'Awesome response'] }, format: :js
           expect(assigns :ticket).to eq ticket
         end
-        
+
+        it 'should not create a new ticket' do
+          expect{ patch :stuff_update, id: ticket, ticket:{ replies_attributes: [body: 'Awesome response']}, format: :js }.to_not change(Ticket, :count)
+        end        
         
       end
     end

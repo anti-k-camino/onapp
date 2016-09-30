@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
   def current_stuff
     @current_stuff ||= Stuff.find(session[:stuff_id]) if session[:stuff_id]
   end
+  
   helper_method :current_stuff
 
   def authenticate_stuff!
