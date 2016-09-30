@@ -20,7 +20,7 @@ class Ability
 
   def stuff_abilities
     can :stuff_update, Ticket do |ticket| 
-      stuff.owner_of?(ticket)
+      stuff.owner_of?(ticket) || ticket.stuff_id == nil
     end  
   end
 end

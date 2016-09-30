@@ -17,39 +17,24 @@ describe Ability  do
 
     it { should be_able_to :manage, :all }
   end
+=end
+  describe 'for stuff' do
 
-  describe 'for user' do
-
-    let(:user){ create :user }
-    let(:other_user){ create :user }
-    let(:answer){ create :answer, user: user }
-    let(:some_other_answer){ create :answer, user: other_user }
-    let(:some_answer){ create :answer }    
-    let(:question){ create :question, user: user }
-    let(:other_question){ create :question, user: other_user }
-    let(:best_answer){ create :answer, question: question, user: other_user }
-    let(:best_other_answer){ create :answer, question: other_question }
+    let(:stuff){ create :stuff }
+    let(:other_stuff){ create :stuff }
+    let(:ticket){ create :ticket, stuff: stuff }
+    let(:other_ticket){ create :ticket, stuff: other_stuff }
+    let(:un_owned_ticket){ create :ticket }
 
 
-    it { should_not be_able_to :manage, :all }
-    it { should be_able_to :read, :all }
+    it { should_not be_able_to :manage, :all }    
 
-    it { should be_able_to :create, Question }
-    it { should be_able_to :create, Answer }
-    it { should be_able_to :create, Comment }
+    it { should be_able_to :stuff_update, ticket }
+    it { should be_able_to :stuff_update, un_owned_ticket }
+    it { should_not be_able_to :stuff_update, other_ticket }
 
-    it { should be_able_to :update, question }
-    it { should_not be_able_to :update, other_question }
-
-    it { should be_able_to :update, answer }
-    it { should_not be_able_to :update, some_other_answer }    
-
-    it { should be_able_to :destroy, question }
-    it { should_not be_able_to :destroy, other_question }
-
-    it { should be_able_to :destroy, answer }
-    it { should_not be_able_to :destroy, some_other_answer }
-
+  end   
+=begin
     it { should be_able_to :destroy, create(:comment, body: 'Text',commentable: some_answer, user: user) }
     it { should_not be_able_to :destroy, create(:comment, body: 'Text', commentable: some_answer, user: other_user) }
 
