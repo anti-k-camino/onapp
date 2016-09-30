@@ -139,16 +139,30 @@ RSpec.describe TicketsController, type: :controller do
     end   
 
   end 
-=begin 
+
   describe 'PATCH#stuff_update' do
     context 'Authenticated stuff' do
-      let!(:ticket){ create :ticket }
+
       sign_in_stuff
 
-      it 'should assign ticket to @ticket' do
-        patch :stuff_update, id: ticket, ticket:{ replies_attributes: [body: 'Awesome response']}, format: :js
-        expect(assigns :ticket).to eq ticket
+      context 'owner of a ticket' do
+        let!(:status){ create :status, state: 'waiting for stuff response'}
+        let!(:ticket){ create :ticket, status: status, stuff: @stuff }
+        let!(:stuff){ create :stuff }
+        let!(:unavailable_ticket){ create :ticket, status: status, stuff: stuff }
+
+        it 'should assign ticket to @ticket' do
+          patch :stuff_update, id: ticket, ticket:{ replies_attributes: [body: 'Awesome response']}, format: :js
+          expect(assigns :ticket).to eq ticket
+        end
+        
+        
       end
+    end
+
+      
+
+=begin      
 
       it 'should not create a new ticket' do
         expect{ patch :stuff_update, id: ticket, ticket:{ replies_attributes: [body: 'Awesome response']}, format: :js }.to_not change(Ticket, :count)
@@ -170,6 +184,8 @@ RSpec.describe TicketsController, type: :controller do
           expect(ticket.current_status).to eq 'Completed'
         end
       end
+=end
+=begin
       context 'owner' do
         let!(:another_stuff){ create :stuff }
 
@@ -186,7 +202,8 @@ RSpec.describe TicketsController, type: :controller do
         end
       end
     end
-
+=end
+=begin
     context 'Non-authenticated stuff' do
       let!(:ticket){ create :ticket }
 
@@ -199,8 +216,9 @@ RSpec.describe TicketsController, type: :controller do
       def request
         return [nil, patch(:stuff_update, id: ticket, ticket:{ replies_attributes: [body: 'Awesome response'] })]
       end
-    end    
+    end 
+=end   
   end
 
-=end
+
 end
