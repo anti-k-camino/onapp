@@ -77,4 +77,10 @@ end
       expect(ticket).to have_a_version_with status: 'completed'       
     end
   end
+
+describe 'creation' do
+  it 'should assign status waiting for stuff response to freshly created ticket' do
+    expect(Ticket).to receive :
+  end
+end
 =end

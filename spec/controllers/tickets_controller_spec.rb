@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe TicketsController, type: :controller do
 
   describe 'GET #show' do
+    let!(:status){ create :status, state: 'waiting for stuff response'}
     let!(:ticket){ create :ticket }
     before do
       get :show, id: ticket
@@ -17,10 +18,14 @@ RSpec.describe TicketsController, type: :controller do
   end
 
   describe 'POST #create' do
+
+    let!(:status){ create :status, state: 'waiting for stuff response' }
+    let!(:department){ create :department, title: 'dept1' }
+
     context 'valid_attributes' do
       let!(:department){ create :department }
 
-      it 'should call create_mail' do
+      it 'should call create_mail' do        
         expect(TicketMailer).to receive(:creation_email).and_call_original
         post :create, ticket: attributes_for(:ticket, department_id: department.id ), format: :js     
       end
@@ -69,6 +74,7 @@ RSpec.describe TicketsController, type: :controller do
     end
 
   end
+
 =begin  
   describe 'PATCH#update' do
     let!(:ticket){ create :ticket, status: 1 }

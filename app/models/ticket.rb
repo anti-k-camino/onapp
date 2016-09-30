@@ -6,6 +6,11 @@ class Ticket < ActiveRecord::Base
   belongs_to :department
   belongs_to :status
 
+  before_validation(on: :create) do
+    self.random_id = Ticket.generate_id 
+    self.status = Status.waiting_for_stuff_response
+  end 
+
   accepts_nested_attributes_for :replies, reject_if: lambda{ |attributes| attributes['body'].blank? }     
 
   validates :name, :email, :subject, :body, :status_id, :random_id, :department_id, presence: true

@@ -1,6 +1,6 @@
 class TicketsController < ApplicationController
   before_action :authorize, only:[:stuff_update]  
-  before_action :load_ticket, only:[:show, :update, :stuff_update, :edit]
+  before_action :load_ticket, only:[:show, :update, :stuff_update]
   before_action :set_waiting_customer, only:[:stuff_update]
   before_action :set_owner, only:[:stuff_update]
 
@@ -15,7 +15,7 @@ class TicketsController < ApplicationController
   respond_to :js
 
   def create    
-    respond_with @ticket = Ticket.create(ticket_params.merge(random_id: Ticket.generate_id))
+    respond_with @ticket = Ticket.create(ticket_params)
   end
 
   def update        
