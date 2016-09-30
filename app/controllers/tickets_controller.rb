@@ -2,7 +2,7 @@ class TicketsController < ApplicationController
   before_action :authorize, only:[:stuff_update]  
   before_action :load_ticket, only:[:show, :update, :stuff_update]
   before_action :check_update_validness, only:[:update]  
-  before_action :set_waiting_stuff, only:[:update]  
+  after_action :set_waiting_stuff, only:[:update]  
   before_action :set_waiting_customer, only:[:stuff_update]
   before_action :set_owner, only:[:stuff_update]
 
@@ -21,7 +21,7 @@ class TicketsController < ApplicationController
   end
 
   def update        
-    @ticket.update(ticket_params)
+    @ticket.update!(ticket_params)
     flash[:notice] = 'Your ticket successfully updated.'  
   end
 
@@ -46,7 +46,7 @@ class TicketsController < ApplicationController
   end
 
   def set_waiting_stuff
-    @ticket.status = Status.waiting_for_stuff_response
+    @ticket.update(status: Status.waiting_for_stuff_response)    
   end
 
   def set_owner

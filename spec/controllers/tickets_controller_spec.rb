@@ -81,16 +81,17 @@ RSpec.describe TicketsController, type: :controller do
     let!(:unavailable_ticket){ create :ticket, status: unavailable_status }
     let!(:stuff){ create :stuff }
 
-    context 'available' do      
-      it 'should call create_mail' do
-        expect(controller).to receive(:create_mail).with(:creation_email)
-        patch :update, id: ticket, ticket:{ body: 'Some new body'}, format: :js     
-      end
+    context 'available' do
 
       it "should check availability of update" do
         expect(controller).to receive(:check_update_validness)
         patch :update, id: ticket, ticket:{ body: 'Some new body'}, format: :js         
       end
+
+      it 'should call create_mail' do
+        expect(controller).to receive(:create_mail).with(:creation_email)
+        patch :update, id: ticket, ticket:{ body: 'Some new body'}, format: :js     
+      end     
 
       it "should set ticket's status to waiting for stuff response" do
         expect(controller).to receive(:set_waiting_stuff)
@@ -101,12 +102,17 @@ RSpec.describe TicketsController, type: :controller do
         expect{ patch :update, id: ticket, ticket:{ body: 'Some new body' }, format: :js }.to_not change(Ticket, :count)
       end
 
-      #it 'should not save a version of update', versioning: true do
-      #  expect{ patch :update, id: ticket, ticket:{ body: 'Some new body' }, format: :js }.to change(ticket.versions, :count).by(1)
+      #it 'should save a version of update', versioning: true do
+        #expect{ patch :update, id: ticket, ticket:{ body: 'Some new body' }, format: :js }.to change(ticket.versions, :count).by(1)
+        #expect(PaperTrail).to receive(:update)
+        #patch :update, id: ticket, ticket:{ body: 'Some new body' }, format: :js
       #end
 
-      it 'should not save a version of update', versioning: true do
-      end
+      it "should change ticket's body" do       
+        patch :update, id: ticket, ticket:{ body: 'Some new body'}, format: :js
+        ticket.reload        
+        expect(ticket.body).to eq 'Some new body'
+      end     
 
       it 'should render view update' do
         patch :update, id: ticket, ticket:{ body: 'Some new body'}, format: :js
@@ -114,7 +120,23 @@ RSpec.describe TicketsController, type: :controller do
       end
     end
 
-    
+    context 'not available' do
+
+      it "should check availability of update" do
+        expect(controller).to receive(:check_update_validness)
+        patch :update, id: unavailable_ticket, ticket:{ body: 'Some new body'}, format: :js         
+      end
+
+      it 'should not call create_mail' do
+        expect(controller).to_not receive(:create_mail).with(:creation_email)
+        patch :update, id: unavailable_ticket, ticket:{ body: 'Some new body'}, format: :js     
+      end 
+
+      it 'should not create a new ticket' do
+        expect{ patch :update, id: unavailable_ticket, ticket:{ body: 'Some new body' }, format: :js }.to_not change(Ticket, :count)
+      end
+
+    end   
 
   end 
 =begin 
