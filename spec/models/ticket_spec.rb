@@ -38,7 +38,7 @@ RSpec.describe Ticket, type: :model do
       p Ticket.count
 
       def res
-        return{ method: :opened, result: [ticket1, ticket2, ticket4], invalid: ticket }
+        { method: :opened, result: [ticket1, ticket2, ticket4], invalid: ticket }
       end                
     end
 
@@ -46,7 +46,7 @@ RSpec.describe Ticket, type: :model do
       it_should_behave_like "Method" 
 
       def res
-        return{ method: :unassigned, result: [ticket1], invalid: ticket3 }
+        { method: :unassigned, result: [ticket1], invalid: ticket3 }
       end                
     end
 
@@ -54,7 +54,7 @@ RSpec.describe Ticket, type: :model do
       it_should_behave_like "Method" 
 
       def res
-        return{ method: :onhold, result: [ticket2], invalid: ticket1 }
+        { method: :onhold, result: [ticket2], invalid: ticket1 }
       end                
     end
 
@@ -62,7 +62,7 @@ RSpec.describe Ticket, type: :model do
       it_should_behave_like "Method" 
 
       def res
-        return{ method: :closed, result: [ticket, ticket3], invalid: ticket1 }
+        { method: :closed, result: [ticket, ticket3], invalid: ticket1 }
       end                
     end    
   end

@@ -12,9 +12,7 @@ class Ticket < ActiveRecord::Base
   validates :random_id, uniqueness: true 
  
 
-  def self.unassigned
-    #where(status: 'waiting for stuff response')
-    #joins("INNER JOIN statuses ON status.state = 'waiting for stuff response'")
+  def self.unassigned    
     joins(:status).where("state = 'waiting for stuff response'")
   end
 

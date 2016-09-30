@@ -69,7 +69,7 @@ RSpec.describe TicketsController, type: :controller do
     end
 
   end
-  
+=begin  
   describe 'PATCH#update' do
     let!(:ticket){ create :ticket, status: 1 }
     let!(:stuff){ create :stuff }
@@ -164,5 +164,5 @@ RSpec.describe TicketsController, type: :controller do
     end    
   end
 
-
+=end
 end
