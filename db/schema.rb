@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160929172812) do
+ActiveRecord::Schema.define(version: 20160929201011) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,14 @@ ActiveRecord::Schema.define(version: 20160929172812) do
 
   add_index "replies", ["ticket_id"], name: "index_replies_on_ticket_id", using: :btree
 
+  create_table "statuses", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "state"
+  end
+
+  add_index "statuses", ["state"], name: "index_statuses_on_state", unique: true, using: :btree
+
   create_table "stuffs", force: :cascade do |t|
     t.string   "name"
     t.string   "password_digest"
@@ -51,14 +59,14 @@ ActiveRecord::Schema.define(version: 20160929172812) do
     t.datetime "updated_at",                 null: false
     t.string   "random_id",                  null: false
     t.integer  "stuff_id"
-    t.integer  "status",        default: 0,  null: false
     t.integer  "department_id"
+    t.integer  "status_id"
   end
 
   add_index "tickets", ["department_id"], name: "index_tickets_on_department_id", using: :btree
   add_index "tickets", ["email"], name: "index_tickets_on_email", using: :btree
   add_index "tickets", ["random_id"], name: "index_tickets_on_random_id", using: :btree
-  add_index "tickets", ["status"], name: "index_tickets_on_status", using: :btree
+  add_index "tickets", ["status_id"], name: "index_tickets_on_status_id", using: :btree
 
   create_table "versions", force: :cascade do |t|
     t.string   "item_type",      null: false

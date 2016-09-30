@@ -5,12 +5,12 @@ RSpec.describe Ticket, type: :model do
   it { should validate_presence_of :subject }
   it { should validate_presence_of :random_id }
   it { should validate_presence_of :department_id }
-  it { should validate_presence_of :status }
+  it { should validate_presence_of :status_id }
   it { should have_many :replies }
   it { should belong_to :department}
   it { should accept_nested_attributes_for :replies }
 
-
+=begin
   describe '.current_status' do    
     let!(:ticket){ create :ticket, status: 'on_hold' }
 
@@ -18,16 +18,24 @@ RSpec.describe Ticket, type: :model do
       expect(ticket.current_status).to eq 'On hold'
     end
   end
+=end
+  describe 'Ticket statuses query methods' do 
+    let!(:status){ create :status, state: 'canceled'}
+    let!(:status1){ create :status, state: 'waiting for stuff response'} 
+    let!(:status2){ create :status, state: 'on hold'} 
+    let!(:status3){ create :status, state: 'closed'} 
+    let!(:status4){ create :status, state: 'waiting for customer'}  
 
-  describe 'Stauses class methods' do    
-    let!(:ticket){ create :ticket, status: 'canceled' }
-    let!(:ticket1){ create :ticket, status: 'waiting_for_stuff_response' }
-    let!(:ticket2){ create :ticket, status: 'on_hold' }
-    let!(:ticket3){ create :ticket, status: 'completed' }
-    let!(:ticket4){ create :ticket, status: 'waiting_for_customer' }
+    let!(:ticket){ create :ticket, status: status }
+    let!(:ticket1){ create :ticket, status: status1 }
+    let!(:ticket2){ create :ticket, status: status2 }
+    let!(:ticket3){ create :ticket, status: status3 }
+    let!(:ticket4){ create :ticket, status: status4 }
     
     describe '.opened' do      
       it_should_behave_like "Method" 
+      p "OOO"
+      p Ticket.count
 
       def res
         return{ method: :opened, result: [ticket1, ticket2, ticket4], invalid: ticket }
@@ -56,8 +64,7 @@ RSpec.describe Ticket, type: :model do
       def res
         return{ method: :closed, result: [ticket, ticket3], invalid: ticket1 }
       end                
-    end
-    
+    end    
   end
 end
 =begin
