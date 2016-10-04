@@ -9,4 +9,4 @@
 - else
   h1 Results:
   - @results.each do |r|
-    h2= link_to 'Ticket', ticket_path(r.id)
+    h2= link_to r.subject, ticket_path(r.id)
