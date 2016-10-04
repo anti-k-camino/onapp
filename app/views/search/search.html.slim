@@ -1,0 +1,12 @@
+= form_tag search_path, method: :get, role: 'search' do
+  = label_tag :query, 'Search'
+  = select_tag(:selection, options_for_select(['All', 'random_id', 'subject']))
+  = text_field_tag :query
+  = submit_tag 'Find', name: nil, class: 'btn-sm btn-primary'
+
+- if @results.empty?
+  p Not found
+- else
+  h1 Results:
+  - @results.each do |r|
+    h2= link_to 'Ticket', ticket_path(r.id)

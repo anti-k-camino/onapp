@@ -1,10 +1,14 @@
 class Ticket < ActiveRecord::Base
   include Generator
+  include ThinkingSphinx::Scopes
   has_paper_trail only:[:stuff_id, :status_id], on:[:update] 
   has_many :replies
   belongs_to :stuff
   belongs_to :department
   belongs_to :status
+
+  sphinx_scope(:by_subject) { |name| {:conditions => {:subject => name}} }
+  sphinx_scope(:by_random_id) { |name| {:conditions => {:random_id => name}} } 
 
   before_validation(on: :create) do
     self.random_id = Ticket.generate_id 
@@ -34,6 +38,6 @@ class Ticket < ActiveRecord::Base
 
   def self.closed
     joins(:status).where("state = 'canceled' OR state = 'closed'")
-  end 
+  end
   
 end
