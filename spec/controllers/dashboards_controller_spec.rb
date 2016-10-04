@@ -1,22 +1,23 @@
 require 'rails_helper'
 
 RSpec.describe DashboardsController, type: :controller do
-  describe 'GET#unassigned' do
-    let!(:tickets){ create_list(:ticket, 2) }
-    let!(:onhold_ticket){ create :ticket, status: 'on_hold'}
+
+  describe 'GET#unassigned' do   
+    let!(:stuff){ create :stuff }
+    let!(:tickets){ create_list :ticket, 2, stuff: stuff }
+    let!(:unassigned){ create :ticket }
     
-    it_behaves_like 'Authorizable'
+    sign_in_stuff
 
-    it_behaves_like 'Non Authorizable'
-
-    def request
-      return ['unassigned', get(:unassigned)]
+    it 'should populate array of unassigned tickets' do                 
+      get :unassigned
+      expect(assigns(:tickets)).to match_array([unassigned])
     end
   end
-
+=begin
   describe 'GET#opened' do
-    let!(:tickets){ create_list(:ticket, 2) }
-    let!(:opened_ticket){ create :ticket, status: 'canceled'}
+    let!(:tickets){ create_list :ticket, 2, status: Status.waiting_for_stuff_response }
+    let!(:opened_ticket){ create :ticket, status: Status.canceled }
 
     it_behaves_like 'Authorizable'
 
@@ -28,21 +29,21 @@ RSpec.describe DashboardsController, type: :controller do
   end
 
   describe 'GET#onhold' do
-    let!(:tickets){ create_list :ticket, 2, status: 'on_hold' }
-    let!(:opened_ticket){ create :ticket, status: 'canceled'}
+    let!(:tickets){ create_list :ticket, 2, status: Status.on_hold }
+    let!(:opened_ticket){ create :ticket, status: Status.canceled}
    
     it_behaves_like 'Authorizable'
 
     it_behaves_like 'Non Authorizable'
 
     def request
-      return ['onhold', get(:onhold)]
+      return ['onhold', get(:on_hold)]
     end
   end
 
-  describe 'GET#onhold' do
-    let!(:tickets){ create_list :ticket, 2, status: 'completed' }
-    let!(:opened_ticket){ create :ticket, status: 'waiting_for_customer'}
+  describe 'GET#closed' do
+    let!(:tickets){ create_list :ticket, 2, status: Status.closed }
+    let!(:opened_ticket){ create :ticket, status: Status.waiting_for_customer}
    
     it_behaves_like 'Authorizable'
 
@@ -52,5 +53,5 @@ RSpec.describe DashboardsController, type: :controller do
       return ['closed', get(:closed)]
     end
   end
-
+=end
 end

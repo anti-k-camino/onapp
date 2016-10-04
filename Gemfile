@@ -29,6 +29,8 @@ gem 'cocoon'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'bcrypt', '~> 3.1.7'
 gem 'cancancan', '~> 1.10'
+gem 'mysql2'
+gem 'thinking-sphinx'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

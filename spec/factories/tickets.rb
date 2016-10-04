@@ -13,5 +13,6 @@ FactoryGirl.define do
     body 'somebody'    
     department { create(:department) } 
     status { create(:status)}
+    stuff_id nil
   end
 end

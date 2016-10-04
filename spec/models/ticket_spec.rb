@@ -9,15 +9,6 @@ RSpec.describe Ticket, type: :model do
   it { should belong_to :department}
   it { should accept_nested_attributes_for :replies }
 
-=begin
-  describe '.current_status' do    
-    let!(:ticket){ create :ticket, status: 'on_hold' }
-
-    it 'should return right dept' do
-      expect(ticket.current_status).to eq 'On hold'
-    end
-  end
-=end
   describe 'Ticket statuses query methods' do 
     let!(:status){ create :status, state: 'canceled'}
     let!(:status1){ create :status, state: 'waiting for stuff response'} 
@@ -30,24 +21,29 @@ RSpec.describe Ticket, type: :model do
     let!(:ticket2){ create :ticket, status: status2 }
     let!(:ticket3){ create :ticket, status: status3 }
     let!(:ticket4){ create :ticket, status: status4 }
+
+    describe '.unassigned' do
+      let!(:stuff){ create :stuff }
+      let!(:tickets){ create_list :ticket, 2, stuff: stuff }
+      let!(:unassigned){ create :ticket }
+      
+      it 'should return an array of unasigned tickets' do
+        expect(Ticket.unassigned).to_not eq tickets
+      end
+
+      it 'should not return owned tickets' do
+        expect(Ticket.unassigned.include? unassigned).to be_truthy
+      end 
+               
+    end
     
     describe '.opened' do      
-      it_should_behave_like "Method" 
-      p "OOO"
-      p Ticket.count
+      it_should_behave_like "Method"       
 
       def res
         { method: :opened, result: [ticket1, ticket2, ticket4], invalid: ticket }
       end                
-    end
-
-    describe '.unassigned' do
-      it_should_behave_like "Method" 
-
-      def res
-        { method: :unassigned, result: [ticket1], invalid: ticket3 }
-      end                
-    end
+    end    
 
     describe '.onhold' do
       it_should_behave_like "Method" 
@@ -101,10 +97,4 @@ end
       expect(ticket).to have_a_version_with status: 'completed'       
     end
   end
-
-describe 'creation' do
-  it 'should assign status waiting for stuff response to freshly created ticket' do
-    expect(Ticket).to receive :
-  end
-end
 =end

@@ -17,6 +17,6 @@ class DashboardsController < ApplicationController
   protected
  
   def method
-    @tickets = Ticket.send(action_name.to_sym).includes(:replies)
+    respond_with @tickets = Ticket.send(action_name.to_sym).includes(:replies)
   end 
 end

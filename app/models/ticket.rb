@@ -21,7 +21,7 @@ class Ticket < ActiveRecord::Base
   end  
 
   def self.unassigned    
-    joins(:status).where("state = 'waiting for stuff response'")
+    where("stuff_id IS ?", nil)
   end
 
   def self.opened
@@ -34,9 +34,6 @@ class Ticket < ActiveRecord::Base
 
   def self.closed
     joins(:status).where("state = 'canceled' OR state = 'closed'")
-  end
+  end 
   
-  def current_status
-    self.status.humanize
-  end
 end

@@ -190,6 +190,11 @@ RSpec.describe TicketsController, type: :controller do
             ticket.reload 
             expect( ticket.stuff_id ).to eq another_stuff.id
           end
+
+          it 'should change status to waiting for customer' do
+            expect(controller).to receive(:set_waiting_customer)
+            patch :stuff_update, id: ticket.id, ticket:{ stuff_id: another_stuff.id, replies_attributes: [body: 'Awesome response']}, format: :js            
+          end
         end
 
         context 'not owned ticket' do
@@ -207,13 +212,16 @@ RSpec.describe TicketsController, type: :controller do
 
           it 'should change status to waiting for customer' do
             expect(controller).to receive(:set_waiting_customer)
-            patch :stuff_update, id: not_owned_ticket.id, ticket:{ stuff_id: another_stuff.id, replies_attributes: [body: 'Awesome response']}, format: :js      
-           
+            patch :stuff_update, id: not_owned_ticket.id, ticket:{ stuff_id: another_stuff.id, replies_attributes: [body: 'Awesome response']}, format: :js            
           end
-        end
-
-               
-        
+        end        
+      end
+      context 'not owner of a ticket' do
+        let!(:status){ create :status, state: 'waiting for stuff response'}
+        let!(:ticket){ create :ticket, status: status, stuff: @stuff }
+        let!(:another_stuff){ create :stuff }
+        let!(:unavailable_ticket){ create :ticket, status: status, stuff: another_stuff }
+        let!(:not_owned_ticket){ create :ticket, status: status, stuff: nil }
       end
     end
   end
