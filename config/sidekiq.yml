@@ -1,0 +1,10 @@
+:concurrency: 25
+:pidfile: ./tmp/pids/sidekiq.pid
+:logfile: ./log/sidekiq.log
+:queues:
+  - default
+  - mailers
+
+  - onapp_default
+  - onapp_mailers
+:daemon: true

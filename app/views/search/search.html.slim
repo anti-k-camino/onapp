@@ -9,4 +9,7 @@
 - else
   h1 Results:
   - @results.each do |r|
-    h2= link_to r.subject, ticket_path(r.id)
+    .panel.panel-default
+      h4= r.subject
+      p= r.body
+      

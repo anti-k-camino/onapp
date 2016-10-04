@@ -66,6 +66,6 @@ class TicketsController < ApplicationController
   end
 
   def create_mail(param)        
-    TicketMailer.send(param, @ticket).send(:deliver_now) unless @ticket.errors.any?
+    TicketMailer.send(param, @ticket).send(:deliver_later) unless @ticket.errors.any?
   end  
 end

@@ -31,6 +31,8 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'cancancan', '~> 1.10'
 gem 'mysql2'
 gem 'thinking-sphinx'
+gem 'sidekiq'
+gem 'foreman'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
