@@ -2,7 +2,8 @@ require 'rails_helper'
 
 
 
-RSpec.configure do |config|  
+RSpec.configure do |config| 
+  config.include SphinxHelpers, type: :feature 
 
   Capybara.javascript_driver = :webkit
 
@@ -26,6 +27,10 @@ RSpec.configure do |config|
 
   config.before(:each) do
     DatabaseCleaner.start
+  end
+
+  config.before(:each, sphinx: true) do
+    DatabaseCleaner.strategy = :deletion
   end
 
   config.after(:each) do
