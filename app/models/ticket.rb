@@ -38,6 +38,5 @@ class Ticket < ActiveRecord::Base
 
   def self.closed
     joins(:status).where("state = 'canceled' OR state = 'closed'")
-  end
-  
+  end  
 end

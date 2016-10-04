@@ -13,9 +13,9 @@ class Ability
   end
 
   def guest_abilities
-    can :create, [Ticket]
-    can :show, [Ticket]
-    can :update, [Ticket]
+    can :create, Ticket
+    can :show, Ticket
+    can :update, Ticket
   end
 
   def stuff_abilities

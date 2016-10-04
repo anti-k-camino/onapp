@@ -7,4 +7,8 @@ class Stuff < ActiveRecord::Base
   def owner_of?(ticket)
     id == ticket.stuff_id
   end
+
+  def self.owner( stuff_id )
+    stuff_id ? Stuff.find(stuff_id).name : 'not owned yet'
+  end
 end

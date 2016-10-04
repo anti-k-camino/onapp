@@ -12,7 +12,9 @@
           .panel.panel-defaut.history            
             =Reply.track_ownership(v.changeset)
             p
-              =v.changeset["stuff_id"][1] if v.changeset["stuff_id"].present?
+              =Stuff.owner(v.changeset["stuff_id"][1])
+            p
+              =Status.current_state(v.changeset["status_id"][1]) if v.changeset["status_id"].present?
             
             
             
