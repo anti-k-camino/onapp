@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'welcome#ticket'
 
-  resource :welcome, only:[] do
+  resource :welcome, only:[] do#peredelat na new ticket
     get 'ticket', on: :collection
   end
 

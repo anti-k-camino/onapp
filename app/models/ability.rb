@@ -21,7 +21,7 @@ class Ability
   def stuff_abilities
     guest_abilities
     can :stuff_update, Ticket do |ticket| 
-      stuff.owner_of?(ticket) || (ticket.stuff_id == nil)
+      stuff.owner_of?(ticket) || ticket.stuff_id.nil?
     end
     can :search, Search
   end

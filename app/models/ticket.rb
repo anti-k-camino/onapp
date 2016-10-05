@@ -7,13 +7,17 @@ class Ticket < ActiveRecord::Base
   belongs_to :department
   belongs_to :status
 
+  
+
   sphinx_scope(:by_subject) { |name| {:conditions => {:subject => name}} }
   sphinx_scope(:by_random_id) { |name| {:conditions => {:random_id => name}} } 
 
   before_validation(on: :create) do
     self.random_id = Ticket.generate_id 
-    self.status = Status.waiting_for_stuff_response if self.status == nil
+    self.status = Status.waiting_for_stuff_response if self.status.nil?
   end 
+
+ 
 
   accepts_nested_attributes_for :replies, reject_if: lambda{ |attributes| attributes['body'].blank? }     
 
@@ -39,6 +43,8 @@ class Ticket < ActiveRecord::Base
   def self.closed
     joins(:status).where("state = 'canceled' OR state = 'closed'")
   end
+
+
 
   def owner
     stuff_id ? stuff.name : "Not owned"

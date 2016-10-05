@@ -2704,8 +2704,7 @@ pre {
 code,
 kbd,
 pre,
-samp {
-  font-family: monospace, monospace;
+samp {  
   font-size: 1em;
 }
 
@@ -2897,8 +2896,7 @@ th {
 /*********************
   General classes
 **********************/
-body {
-  font-family: Roboto, sans-serif;
+body {  
   overflow: auto !important;
 }
 
@@ -3159,35 +3157,9 @@ body.modal-open {
 /*********************
   Roboto font
 **********************/
-@font-face {
-  font-family: "Roboto";
-  src: url("../font/roboto/Roboto-Thin.woff2") format("woff2"), url("../font/roboto/Roboto-Thin.woff") format("woff"), url("../font/roboto/Roboto-Thin.ttf") format("truetype");
-  font-weight: 200;
-}
 
-@font-face {
-  font-family: "Roboto";
-  src: url("../font/roboto/Roboto-Light.woff2") format("woff2"), url("../font/roboto/Roboto-Light.woff") format("woff"), url("../font/roboto/Roboto-Light.ttf") format("truetype");
-  font-weight: 300;
-}
 
-@font-face {
-  font-family: "Roboto";
-  src: url("../font/roboto/Roboto-Regular.woff2") format("woff2"), url("../font/roboto/Roboto-Regular.woff") format("woff"), url("../font/roboto/Roboto-Regular.ttf") format("truetype");
-  font-weight: 400;
-}
 
-@font-face {
-  font-family: "Roboto";
-  src: url("../font/roboto/Roboto-Medium.woff2") format("woff2"), url("../font/roboto/Roboto-Medium.woff") format("woff"), url("../font/roboto/Roboto-Medium.ttf") format("truetype");
-  font-weight: 500;
-}
-
-@font-face {
-  font-family: "Roboto";
-  src: url("../font/roboto/Roboto-Bold.woff2") format("woff2"), url("../font/roboto/Roboto-Bold.woff") format("woff"), url("../font/roboto/Roboto-Bold.ttf") format("truetype");
-  font-weight: 700;
-}
 
 /*********************
   Buttons
@@ -3644,8 +3616,7 @@ a {
 
 html {
   line-height: 1.5;
-  font-family: "Roboto",
- sans-serif;
+  font-family: sans-serif;
   font-weight: normal;
   color: rgba(0, 0, 0, 0.87);
 }
@@ -4253,7 +4224,7 @@ Dropdowns
 **********************/
 .tooltip {
   line-height: 1.5;
-  font-family: "Roboto", sans-serif;
+  font-family: sans-serif;
   font-weight: 300;
 }
 

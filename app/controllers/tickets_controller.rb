@@ -2,10 +2,10 @@ class TicketsController < ApplicationController
   before_action :authenticate_stuff!, only:[:stuff_update]  
   before_action :load_ticket, only:[:show, :update, :stuff_update]
   before_action :check_update_validness, only:[:update, :stuff_update]  
-  after_action :set_waiting_stuff, only:[:update] 
+  before_action :set_waiting_stuff, only:[:update] 
 
 
-  after_action :set_waiting_customer, only:[:stuff_update]
+  #before_action :set_waiting_customer, only:[:stuff_update]
   before_action :set_owner, only:[:stuff_update]
 
   after_action only:[:create, :update] do
@@ -24,13 +24,13 @@ class TicketsController < ApplicationController
     respond_with @ticket = Ticket.create(ticket_params)
   end
 
-  def update        
+  def update
     @ticket.update(ticket_params)
     respond_with @ticket 
   end
 
-  def stuff_update                
-    @ticket.update(ticket_params) 
+  def stuff_update
+    @ticket.update(ticket_params)     
     respond_with @ticket           
   end
 
@@ -57,8 +57,8 @@ class TicketsController < ApplicationController
     (@ticket.stuff_id = current_stuff.id if @ticket.stuff_id.blank?) unless params[:ticket][:stuff_id] 
   end  
 
-  def set_waiting_customer       
-    @ticket.update(status: Status.waiting_for_customer) if @ticket.status == Status.waiting_for_stuff_response      
+  def set_waiting_customer          
+    @ticket.update(status: Status.waiting_for_customer)     
   end
 
   def load_ticket
