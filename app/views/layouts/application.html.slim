@@ -4,38 +4,44 @@ html lang="en"
     meta charset="utf-8"
     meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"
     meta name="viewport" content="width=device-width, initial-scale=1.0"
-    title= content_for?(:title) ? yield(:title) : "Tickets"
+    title= content_for?(:title) ? yield(:title) : "Tickets"    
     = csrf_meta_tags
-    = stylesheet_link_tag "application", :media => "all"
-    / = favicon_link_tag 'apple-touch-icon-144x144-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '144x144'
-    / = favicon_link_tag 'apple-touch-icon-114x114-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '114x114'
-    / = favicon_link_tag 'apple-touch-icon-72x72-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '72x72'
-    / = favicon_link_tag 'apple-touch-icon-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png'
-    / = favicon_link_tag 'favicon.ico', :rel => 'shortcut icon'
+    = stylesheet_link_tag "application", :media => "all"    
     = javascript_include_tag "application" 
 
   body
-    .navbar.navbar-default.navbar-static-top
+    .navbar.navbar-dark.bg-primary
         .container
-          button.navbar-toggle type="button" data-toggle="collapse" data-target=".navbar-responsive-collapse"
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
-          a.navbar-brand href="#"Tickets
+          .collapse.navbar-toggleable-xs id="collapseEx2"          
+          a.navbar-brand Tickets
           .navbar-collapse.collapse.navbar-responsive-collapse
-            ul.nav.navbar-nav                           
+            ul.nav.navbar-nav.signuppers
+              -if current_stuff
+                li.nav-item
+                  =link_to "Logout", logout_path, class:"nav-link"              
+              -else                
+                li.nav-item
+                  =link_to 'Login', login_path, class:"nav-link"
+                li.nav-item
+                  =link_to 'Signup', signup_path, class:"nav-link"                          
     .container
       .row
         .col-lg-12
           .notice_flash                
-            = bootstrap_flash
-            -if current_stuff
-              = link_to "Logout", '/logout'
-            -else
-              = link_to 'Login', '/login'
-              = link_to 'Signup', '/signup'
+            = bootstrap_flash            
 
           = yield     
 
-      footer
-        p &copy; anti-k 2016
+      
+
+
+  footer.page-footer.blue.center-on-small-only.custom-height
+    .container
+      .row
+        h5.title anti-k
+        p simple ticketing system for OnApp
+         
+ 
+        
+  
+
