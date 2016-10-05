@@ -1,19 +1,21 @@
-.card
+.card.custom-login-card
   .card-block
     .text-center
       h4
         i.fa.fa-lock Login:
       hr.m-t-2.m-b-2    
-    .container.custom-login-form
+    .container-fluid
       = form_tag login_path do 
-        .md-form.cusotm-md        
-          = label_tag :name
-          = text_field_tag :name, nil, class:'form-controll'
-        .md-form
-          i.fa.fa-lock.prefix
-          = label_tag :password
-          = password_field_tag :password
-        .text-center
-          = submit_tag "Log in", class:"btn btn-deep-purple"
+        .row
+          .md-form.cusotm-md.col-sm-8.col-sm-offset-2        
+            = label_tag :name
+            = text_field_tag :name, nil, class:'form-controll'
+        .row
+          .md-form.custom-md.col-sm-8.col-sm-offset-2
+            i.fa.fa-lock.prefix
+            = label_tag :password
+            = password_field_tag :password, nil, class:'form-controll'
+          .text-center
+            = submit_tag "Log in", class:"btn btn-deep-purple"
         
 
