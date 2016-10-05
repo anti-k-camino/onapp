@@ -34,7 +34,7 @@ class TicketsController < ApplicationController
     respond_with @ticket           
   end
 
-  def show
+  def show   
   end
 
   protected

@@ -1,13 +1,15 @@
 class SessionsController < ApplicationController  
   before_action :authenticate_stuff!, only:[:destroy]
-  before_action :set_stuff, only:[:create]
+  before_action :set_stuff, only:[:create] 
   
   def create    
     if @stuff && @stuff.authenticate(params[:password])      
       session[:stuff_id] = @stuff.id
-      redirect_to opened_dashboard_path
-    else    
-      redirect_to login_path
+      flash[:notice] = "Successfully signed in."
+      redirect_to workspace_dashboard_path
+    else
+      flash[:alert] = "Invalid login or password."
+      redirect_to login_path      
     end
   end
 

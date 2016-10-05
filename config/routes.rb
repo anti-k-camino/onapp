@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   end
 
   resource :dashboard, only:[] do
+    get 'workspace', on: :collection
     get 'unassigned', on: :collection
     get 'opened', on: :collection
     get 'onhold', on: :collection

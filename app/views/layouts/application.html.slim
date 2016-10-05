@@ -14,9 +14,21 @@ html lang="en"
         .container
           .collapse.navbar-toggleable-xs id="collapseEx2"          
           a.navbar-brand Tickets
-          .navbar-collapse.collapse.navbar-responsive-collapse
+          .navbar-collapse.collapse.navbar-responsive-collapse            
             ul.nav.navbar-nav.signuppers
               -if current_stuff
+                li.nav-item
+                  .btn-group
+                    button class="btn btn-danger btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" Ticket statuses
+                    .dropdown-menu
+                      p                      
+                        =link_to 'Opened', opened_dashboard_path, class:'dropdown-item'
+                      p
+                        =link_to 'On hold', onhold_dashboard_path, class:'dropdown-item' 
+                      p
+                        =link_to 'Closed', closed_dashboard_path, class:'dropdown-item'
+                      p 
+                        =link_to 'Unassigned', unassigned_dashboard_path, class:'dropdown-item'                     
                 li.nav-item
                   =link_to "Logout", logout_path, class:"nav-link"              
               -else                

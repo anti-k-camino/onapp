@@ -3,4 +3,6 @@
     ul
       -resource.errors.full_messages.each do |message| 
         li 
-          =message
+          .panel.field_with_errors
+            =message
+

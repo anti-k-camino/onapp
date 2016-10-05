@@ -1,0 +1,5 @@
+-@tickets.each do |t|
+  .card
+    .card-block
+      h4.card-title
+       =link_to "#{t.subject}", ticket_path(t)

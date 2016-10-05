@@ -1,6 +1,23 @@
-h1 Signup!
-= form_for :stuff, url: '/stuffs' do |f|
-  = f.text_field :name
-  = f.password_field :password 
-  = f.password_field :password_confirmation
-  = f.submit
+.card.custom-login-card
+  .card-block
+    .text-center
+      h4 Sign up        
+      hr.m-t-2.m-b-2    
+    .container-fluid
+      = form_for :stuff, url: '/stuffs' do |f|
+        .row
+          .md-form.cusotm-md.col-sm-8.col-sm-offset-2        
+            = f.label :name
+            = f.text_field :name, class:'form-controll'
+        .row
+          .md-form.custom-md.col-sm-8.col-sm-offset-2
+            i.fa.fa-lock.prefix
+            = f.label :password
+            = f.password_field :password, class:'form-controll'
+        .row
+          .md-form.custom-md.col-sm-8.col-sm-offset-2
+            i.fa.fa-lock.prefix
+            = f.label :password_confirmation
+            = f.password_field :password_confirmation, class:'form-controll'
+          .text-center
+            = f.submit 'Sign up', class:"btn btn-deep-purple"

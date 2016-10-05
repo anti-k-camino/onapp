@@ -1,20 +1,39 @@
 .container
   .row
     .col-sm-5
+      .card.text-center.z-depth-2
+        .card-header.danger-color-dark.white-text
+          h4 =@ticket.subject
+        .card-block 
+          .card-text
+            .panel              
+              =@ticket.body
+            .panel
+              |Department : 
+              =@ticket.department.title
+            h6
+              span.tag.grey.white-text.custom_tag
+                =@ticket.status.state
+              span.tag.green.white-text.custom_tag
+                =@ticket.owner
+    .container
+      -@ticket.replies.build
       .panel.panel-default
-        p=@ticket.name
-        p=@ticket.subject
-      .panel.panel-default
-        =render 'form'
-    .col-sm-7
-      .panel.panel-default
+        .container-fluid
+          -if current_stuff
+            =render 'tickets/stuff_update_form', t: @ticket
+
+
+    .col-sm-5
+       .panel.panel-default
         -@ticket.versions.each do |v|
           .panel.panel-defaut.history            
-            =Reply.track_ownership(v.changeset)
             p
-              =Stuff.owner(v.changeset["stuff_id"][1])
-            p
-              =Status.current_state(v.changeset["status_id"][1]) if v.changeset["status_id"].present?
+              =v.changeset
+
+          
+
+
             
             
             

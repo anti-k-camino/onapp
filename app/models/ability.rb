@@ -19,9 +19,10 @@ class Ability
   end
 
   def stuff_abilities
+    guest_abilities
     can :stuff_update, Ticket do |ticket| 
       stuff.owner_of?(ticket) || (ticket.stuff_id == nil)
     end
-    can :search, Search  
+    can :search, Search
   end
 end

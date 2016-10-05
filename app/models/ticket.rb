@@ -38,5 +38,9 @@ class Ticket < ActiveRecord::Base
 
   def self.closed
     joins(:status).where("state = 'canceled' OR state = 'closed'")
+  end
+
+  def owner
+    stuff_id ? stuff.name : "Not owned"
   end  
 end
