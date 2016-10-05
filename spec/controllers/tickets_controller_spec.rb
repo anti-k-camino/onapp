@@ -211,8 +211,7 @@ RSpec.describe TicketsController, type: :controller do
             patch :stuff_update, id: not_owned_ticket.id, ticket:{ stuff_id: another_stuff.id, replies_attributes: [body: 'Awesome response']}, format: :js
             not_owned_ticket.reload 
             expect( not_owned_ticket.stuff_id ).to eq another_stuff.id
-          end     
-
+          end
         end        
       end
       context 'not owner of a ticket' do
