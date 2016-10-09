@@ -21,7 +21,7 @@ RSpec.describe StuffsController, type: :controller do
 
       it 'should redirect to root path' do
         post :create, stuff: attributes_for(:stuff)
-        expect(response).to redirect_to opened_dashboard_path
+        expect(response).to redirect_to workspace_dashboard_path
       end
     end
 

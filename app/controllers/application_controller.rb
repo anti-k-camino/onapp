@@ -11,6 +11,10 @@ class ApplicationController < ActionController::Base
   def current_stuff
     @current_stuff ||= Stuff.find(session[:stuff_id]) if session[:stuff_id]
   end
+
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_url, :alert => exception.message
+  end
   
   helper_method :current_stuff
 

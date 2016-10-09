@@ -22,14 +22,27 @@
         .container-fluid
           -if current_stuff
             =render 'tickets/stuff_update_form', t: @ticket
+          -else
+            =render 'tickets/form', t: @ticket
 
 
     .col-sm-5
        .panel.panel-default
-        -@ticket.versions.each do |v|
+        -@ticket.replies.each do |r|
           .panel.panel-defaut.history            
             p
-              =v.changeset
+              =r.body
+          
+    -@ticket.versions.includes(:item).each do |v|
+      p=v.changeset[:stuff_id]
+      p=v.changeset[:status_id]      
+    end
+
+
+h3 =@ticket.versions.count
+
+
+
 
           
 

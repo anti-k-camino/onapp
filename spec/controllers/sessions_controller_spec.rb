@@ -16,7 +16,7 @@ RSpec.describe SessionsController, type: :controller do
 
       it 'should redirect to root path' do
         post :create, name: stuff.name, password: stuff.password
-        expect(response).to redirect_to opened_dashboard_path
+        expect(response).to redirect_to workspace_dashboard_path
       end
     end
     
