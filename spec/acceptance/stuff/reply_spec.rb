@@ -8,12 +8,14 @@ feature 'Stuff replies to ticket', %q{
 
   context 'Authenticated stuff' do    
     let!(:stuff){ create :stuff } 
+    let!(:status){ Status.create(state: 'closed') }
     let!(:tickets){ create_list :ticket, 2 } 
-    let!(:closed_ticket){ create :ticket, status: 'completed' }   
+    let!(:closed_ticket){ create :ticket, status: status }   
            
     scenario 'waiting for stuff response status', js: true do    
       sign_in stuff
-      expect(current_path).to eq opened_dashboard_path
+      expect(current_path).to eq workspace_dashboard_path
+      visit workspace_dashboard_path
       expect(page).to have_content tickets[0].random_id
       expect(page).to have_content tickets[1].random_id
       expect(page).to_not have_content closed_ticket.random_id

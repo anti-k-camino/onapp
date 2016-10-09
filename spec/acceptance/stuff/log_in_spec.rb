@@ -14,7 +14,7 @@ feature 'Stuff can sign in', %q{
       fill_in 'Name', with: stuff.name 
       fill_in 'Password', with: '123123'
       click_on 'Log in'
-      expect(current_path).to eq opened_dashboard_path
+      expect(current_path).to eq workspace_dashboard_path
       expect(page).to have_content 'Successfully signed in.'
     end
 
