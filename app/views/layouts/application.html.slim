@@ -17,6 +17,7 @@ html lang="en"
           .navbar-collapse.collapse.navbar-responsive-collapse            
             ul.nav.navbar-nav.signuppers
               -if current_stuff
+                li=link_to "Sphinx search", search_path, class: 'btn btn-warning btn-lg'
                 li.nav-item
                   .btn-group
                     button class="btn btn-danger btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" Ticket statuses
@@ -42,8 +43,7 @@ html lang="en"
           .notice_flash                
             = bootstrap_flash            
 
-          = yield     
-
+          = yield  
       
 
 
