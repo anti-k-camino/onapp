@@ -15,19 +15,24 @@ feature 'Stuff replies to ticket', %q{
     scenario 'waiting for stuff response status', js: true do    
       sign_in stuff
       expect(current_path).to eq workspace_dashboard_path
-      visit workspace_dashboard_path
+      visit opened_dashboard_path  
       expect(page).to have_content tickets[0].random_id
       expect(page).to have_content tickets[1].random_id
       expect(page).to_not have_content closed_ticket.random_id
 
-      within "#stuff_ticket_#{tickets[0].id}" do
-        save_and_open_page
-        fill_in 'Body', with: 'some body response'        
-        click_on 'Submit'
-        wait_for_ajax
-        expect(page).to have_content 'some body response'
-      end
+      expect(page).to have_content "Ticket #{tickets[0].random_id} subject: #{tickets[0].subject}"
+
+      click_on "Ticket #{tickets[0].random_id} subject: #{tickets[0].subject}"
+      wait_for_ajax                      
+      fill_in 'Body', with: 'some body response'        
+      click_on 'Submit'
+      wait_for_ajax     
+      expect(page).to have_content 'some body response'     
       
     end 
+  end
+
+  context 'Non authemticated stuff' do
+    let!(:ticket){ create :ticket, }
   end
 end

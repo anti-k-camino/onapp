@@ -2,4 +2,4 @@
   .card
     .card-block
       h4.card-title
-       =link_to "#{t.subject}", ticket_path(t)
+       =link_to "Ticket #{t.random_id} subject: #{ t.subject }", ticket_path(t)

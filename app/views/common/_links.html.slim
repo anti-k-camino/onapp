@@ -1,5 +1,5 @@
 -@tickets.each do |t|
   .card
     .card-block
-      h4.card-title
-       =link_to "#{t.subject}", ticket_path(t)
+      h4.card-title id="stuff_ticket_#{t.id}"
+       =link_to "Ticket #{t.random_id} subject: #{t.subject}", ticket_path(t)
