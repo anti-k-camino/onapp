@@ -1,4 +1,4 @@
-ThinkingSphinx::Index.define :ticket, with: :active_record do
+ThinkingSphinx::Index.define :ticket, with: :active_record, delta: true do
   #fields
   indexes subject, sortable: true
   indexes body
