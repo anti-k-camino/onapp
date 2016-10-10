@@ -27,12 +27,9 @@ feature 'Stuff replies to ticket', %q{
       fill_in 'Body', with: 'some body response'        
       click_on 'Submit'
       wait_for_ajax     
-      expect(page).to have_content 'some body response'     
+      expect(page).to have_content 'some body response' 
       
     end 
-  end
-
-  context 'Non authemticated stuff' do
-    let!(:ticket){ create :ticket, }
+    
   end
 end
