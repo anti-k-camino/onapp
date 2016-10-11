@@ -40,3 +40,5 @@ Also if it would be a plus I can deploy this app to digital ocean host( Unicorn 
 Again if it would be a plus I can screw an API based on doorkeeper
 
 == Im learning by myself so PLEASE be aware that every single comment or advise from you would be extremely useful for me. The purpose of this pull request is to give you an opportunity write some comments notices or target my mistakes. Please, this is what I need the most - some review of a pro. 
+
+== There was a bug with sidekiq. Now it is fixed in master
