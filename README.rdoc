@@ -26,9 +26,10 @@ Things you may want to cover:
 
 == Hello dear Reviewer!
 Here I just whant to let you know about some details. First of all you can ran this up by
+* create data bases - you'll need mysql for sphinx and reddis for sidekiq(you have to set your password to mysql in configures). I set yml file to gitignore
 * rake ts:index 
 * foreman start
-Also you'll need mysql for sphinx and reddis for sidekiq.
+
 First of all about tracking. My first thought was to  use arround_update/create callback, and I succeeded with that, but than I met this gem paiper trail  -  and it was deffinitely awesome. And so I refactored my app to paiper trail. 
 Also, IMHO authorization of the guest would absolutely fit this app. If you whant to see me adding authorization please let me know and I will add devise + Oauth2( facebook, twitter and so on)
 
