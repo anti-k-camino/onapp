@@ -6,7 +6,7 @@ class Search < ActiveRecord::Base
     if selection == 'All'
       Ticket.search ThinkingSphinx::Query.escape(query)
     else      
-      Ticket.send(("by_" + selection).to_sym, ThinkingSphinx::Query.escape(query)).send(:search)
+      Ticket.attr_search(query, selection)
     end
-  end
+  end  
 end

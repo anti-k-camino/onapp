@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe Search do
   describe '.search_selection' do
-    %w(subject_id random_id).each do |selection|
+    %w(subject random_id).each do |selection|
       it "call #{selection}" do
-        #expect(Ticket).to receive(("by_" + selection).to_sym)??????
+        expect(Ticket).to receive(:attr_search).with('query', "#{selection}")#(("by_" + selection).to_sym)
         Search.search_selection('query', "#{selection}")
       end
     end

@@ -44,9 +44,11 @@ class Ticket < ActiveRecord::Base
     joins(:status).where("state = 'canceled' OR state = 'closed'")
   end
 
-
-
   def owner
     stuff_id ? stuff.name : "Not owned"
-  end  
+  end
+
+  def self.attr_search(query, selection)
+    self.send(("by_" + selection).to_sym, ThinkingSphinx::Query.escape(query)).send(:search)
+  end 
 end
