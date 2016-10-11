@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Search do
+RSpec.describe Search do  
   describe '.search_selection' do
     %w(subject_id random_id).each do |selection|
       it "call #{selection}" do
@@ -8,7 +8,7 @@ RSpec.describe Search do
         Search.search_selection('query', "#{selection}")
       end
     end
-  end
+      end
 
   it 'call selection All' do
     expect(Ticket).to receive(:search).with('query')
