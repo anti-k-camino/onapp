@@ -25,10 +25,16 @@ feature 'Stuff replies to ticket', %q{
       click_on "Ticket #{tickets[0].random_id} subject: #{tickets[0].subject}"
       wait_for_ajax                      
       fill_in 'Body', with: 'some body response'        
-      click_on 'Submit'
-      wait_for_ajax   
-      save_and_open_page  
-      #expect(page).to have_content 'some body response' 
+        
+      Sidekiq::Testing.inline! do
+        click_on 'Submit'
+        wait_for_ajax     
+        current_email = ActionMailer::Base.deliveries.last
+        expect(current_email).to have_content "Stuffs reply"        
+      end
+
+      expect(page).to have_content ""
+       
       
     end 
     

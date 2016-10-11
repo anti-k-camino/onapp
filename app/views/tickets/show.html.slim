@@ -1,21 +1,7 @@
 .container
   .row
-    .col-sm-5
-      .card.text-center.z-depth-2
-        .card-header.danger-color-dark.white-text
-          h4 =@ticket.subject
-        .card-block 
-          .card-text
-            .panel              
-              =@ticket.body
-            .panel
-              |Department : 
-              =@ticket.department.title
-            h6
-              span.tag.grey.white-text.custom_tag
-                =@ticket.status.state
-              span.tag.green.white-text.custom_tag
-                =@ticket.owner
+    .col-sm-5 id="stuff_ticket_#{@ticket.id}"
+      =render 'tickets/ticket', ticket: @ticket 
     .container
       -@ticket.replies.build
       .panel.panel-default
@@ -24,8 +10,6 @@
             =render 'tickets/stuff_update_form', t: @ticket
           -else
             =render 'tickets/form', t: @ticket
-
-
     .col-sm-5
        .panel.panel-default
         -@ticket.replies.each do |r|

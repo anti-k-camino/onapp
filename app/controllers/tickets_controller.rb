@@ -41,8 +41,9 @@ class TicketsController < ApplicationController
 
   def check_update_validness
     current_stuff ? ( return if !@ticket.guest_update_avilable? ) : ( return if @ticket.guest_update_avilable? )    
-    flash[:notice] = "Ticket status is #{@ticket.status.state}, please wait"    
-    render "#{action_name}".to_sym and return  
+    flash.now[:notice] = "Ticket status is #{@ticket.status.state}, please wait"
+    #render "#{action_name}".to_sym and return  
+    respond_with @ticket and return
   end
 
   def ticket_params
