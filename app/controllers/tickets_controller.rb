@@ -30,7 +30,8 @@ class TicketsController < ApplicationController
   end
 
   def stuff_update
-    @ticket.update(ticket_params)     
+    @ticket.update(ticket_params)
+    @ticket.reload     
     respond_with @ticket           
   end
 
