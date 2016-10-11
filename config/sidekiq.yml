@@ -4,7 +4,3 @@
 :queues:
   - default
   - mailers
-
-  - onapp_default
-  - onapp_mailers
-:daemon: true
