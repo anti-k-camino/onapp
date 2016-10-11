@@ -9,8 +9,10 @@ feature 'Stuff replies to ticket', %q{
   context 'Authenticated stuff' do    
     let!(:stuff){ create :stuff } 
     let!(:status){ Status.create(state: 'closed') }
+    let!(:customer_status){ Status.create(state: 'waiting for customer') }
     let!(:tickets){ create_list :ticket, 2 } 
-    let!(:closed_ticket){ create :ticket, status: status }   
+    let!(:closed_ticket){ create :ticket, status: status } 
+    let!(:customer_ticket){ create :ticket, status: customer_status }  
            
     scenario 'waiting for stuff response status', js: true do    
       sign_in stuff
@@ -32,9 +34,19 @@ feature 'Stuff replies to ticket', %q{
         current_email = ActionMailer::Base.deliveries.last
         expect(current_email).to have_content "Stuffs reply"        
       end
-      expect(page).to have_content 'some body response'
-       
-      
+      expect(page).to have_content 'some body response'     
+    end 
+
+    scenario 'waiting for customer status', js: true do    
+      sign_in stuff
+      visit ticket_path customer_ticket
+      expect(page).to have_content customer_ticket.subject  
+
+      fill_in 'Body', with: 'some body response'
+      click_on 'Submit'
+      wait_for_ajax
+      expect(page).to have_content 'Ticket status is waiting for customer, please wait'       
+           
     end 
     
   end

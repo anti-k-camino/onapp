@@ -5,5 +5,5 @@
   $('.errors').html("");
   $('.notice_flash').html("<%= j render 'common/notice' %>");
   $("#stuff_ticket_<%= @ticket.id %>").html("<%= j render 'tickets/ticket', ticket: @ticket %>");
-  $('.replies').append("<%= j render 'replies/reply', reply: @ticket.replies.last %>")
+  $('.replies').html("<%= j render @ticket.replies unless @ticket.replies.empty? %>")
 <% end %> 
