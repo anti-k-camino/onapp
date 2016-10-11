@@ -33,7 +33,7 @@ feature 'Stuff replies to ticket', %q{
         expect(current_email).to have_content "Stuffs reply"        
       end
 
-      expect(page).to have_content ""
+      #expect(page).to have_content ""
        
       
     end 
