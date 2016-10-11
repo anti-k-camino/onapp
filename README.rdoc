@@ -24,5 +24,17 @@ Things you may want to cover:
 * ...
 
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+== Hello dear Reviewer!
+Here I just whant to let you know about some details. First of all you can ran this up by
+* create data bases - you'll need mysql for sphinx and reddis for sidekiq(you have to set your password to mysql in configures). I set yml file to gitignore
+* rake ts:index 
+* foreman start
+
+First of all about tracking. My first thought was to  use arround_update/create callback, and I succeeded with that, but than I met this gem paiper trail  -  and it was deffinitely awesome. And so I refactored my app to paiper trail. 
+Also, IMHO authorization of the guest would absolutely fit this app. If you whant to see me adding authorization please let me know and I will add devise + Oauth2( facebook, twitter and so on)
+
+Also I if there would be authorization I could make page for current_user where all his tickets would be managed. This would give me an opportunity to screw some sockets to this app( Using PubSub or just pure Faye, let me know if you whant to look at this)
+
+Also if it would be a plus I can deploy this app to digital ocean host( Unicorn as app_server). I need two days for this( may be I could manage faster )
+
+== Im learning by myself so PLEASE be aware that every single comment or advise from you would be extremely useful for me. The purpose of this pull request is to give you an opportunity write some comments notices or target my mistakes. Please, this is what I need the most - some review of a pro. 
