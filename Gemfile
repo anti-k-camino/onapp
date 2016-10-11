@@ -55,7 +55,10 @@ group :development, :test do
   gem 'letter_opener'
   gem 'capybara-webkit'
   gem 'database_cleaner'
-  gem 'launchy'
+  gem 'launchy'  
+end
+
+group :test do
   gem 'rspec-sidekiq'
 end
 

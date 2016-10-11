@@ -1,4 +1,5 @@
 class TicketMailer < ApplicationMailer
+  #include Sidekiq::Mailer
   default from: 'tickets@example.com'
  
   def creation_email(ticket)
