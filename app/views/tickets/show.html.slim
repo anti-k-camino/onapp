@@ -10,17 +10,17 @@
             =render 'tickets/stuff_update_form', t: @ticket
           -else
             =render 'tickets/form', t: @ticket
-    .col-sm-5
+    .col-sm-5.replies
        .panel.panel-default
         -@ticket.replies.each do |r|
-          .panel.panel-defaut.history            
+          .panel.panel-defaut.history           
             p
               =r.body
-          
-    -@ticket.versions.includes(:item).each do |v|
-      p=v.changeset[:stuff_id]
-      p=v.changeset[:status_id]      
-    end  
+    div.versions      
+      -@ticket.versions.includes(:item).each do |v|
+        p=v.changeset[:stuff_id]
+        p=v.changeset[:status_id]      
+      end  
 
 
             

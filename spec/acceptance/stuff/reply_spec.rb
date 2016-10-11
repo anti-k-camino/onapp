@@ -32,8 +32,7 @@ feature 'Stuff replies to ticket', %q{
         current_email = ActionMailer::Base.deliveries.last
         expect(current_email).to have_content "Stuffs reply"        
       end
-
-      #expect(page).to have_content ""
+      expect(page).to have_content 'some body response'
        
       
     end 
