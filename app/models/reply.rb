@@ -12,6 +12,5 @@ class Reply < ActiveRecord::Base
   protected
   def set_status
     ticket.update(status: Status.waiting_for_customer) if ticket.status == Status.waiting_for_stuff_response
-  end
-  
+  end  
 end
