@@ -172,6 +172,10 @@ GEM
     responders (2.2.0)
       railties (>= 4.2.0, < 5.1)
     riddle (2.0.0)
+    rspec (3.5.0)
+      rspec-core (~> 3.5.0)
+      rspec-expectations (~> 3.5.0)
+      rspec-mocks (~> 3.5.0)
     rspec-core (3.5.3)
       rspec-support (~> 3.5.0)
     rspec-expectations (3.5.0)
@@ -188,6 +192,9 @@ GEM
       rspec-expectations (~> 3.5.0)
       rspec-mocks (~> 3.5.0)
       rspec-support (~> 3.5.0)
+    rspec-sidekiq (2.2.0)
+      rspec (~> 3.0, >= 3.0.0)
+      sidekiq (>= 2.4.0)
     rspec-support (3.5.0)
     sass (3.4.22)
     sass-rails (5.0.6)
@@ -273,6 +280,7 @@ DEPENDENCIES
   rails (= 4.2.6)
   responders
   rspec-rails
+  rspec-sidekiq
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   shoulda-matchers!
@@ -286,4 +294,4 @@ DEPENDENCIES
   web-console (~> 2.0)
 
 BUNDLED WITH
-   1.13.1
+   1.13.2

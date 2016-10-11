@@ -15,14 +15,14 @@ feature 'Guest should submit a query', %q{
     select 'dept1', from: "ticket[department_id]"
     fill_in 'Subject', with: 'bla-bla-bla'
     fill_in 'Body', with: 'somebody))'
-
-    click_on 'Submit'
-    wait_for_ajax
-=begin
-    open_email('some@email.com')    
-    expect(current_email).to have_content "ticket"
-    expect(current_email).to have_content "your ticket id"
-=end
+    Sidekiq::Testing.inline! do
+      click_on 'Submit'
+      wait_for_ajax     
+      current_email = ActionMailer::Base.deliveries.last
+      expect(current_email).to have_content "ticket"
+      expect(current_email).to have_content "your ticket id"
+    end    
+   
     
     expect(page).to have_content 'Ticket was successfully created.'    
     expect(current_path).to eq root_path

@@ -10,12 +10,24 @@ require 'support/factory_girl'
 require 'capybara/email/rspec'
 require 'cancan/matchers'
 require 'paper_trail/frameworks/rspec'
+require 'sidekiq/testing'
 
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
     with.test_framework :rspec
     with.library :rails
   end
+end
+
+RSpec::Sidekiq.configure do |config|
+  # Clears all job queues before each example
+  config.clear_all_enqueued_jobs = true # default => true
+
+  # Whether to use terminal colours when outputting messages
+  config.enable_terminal_colours = true # default => true
+
+  # Warn when jobs are not enqueued to Redis but to a job array
+  config.warn_when_jobs_not_processed_by_sidekiq = true # default => true
 end
 # Add additional requires below this line. Rails is not loaded until this point!
 
