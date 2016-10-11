@@ -48,6 +48,8 @@ class Ticket < ActiveRecord::Base
     stuff_id ? stuff.name : "Not owned"
   end
 
+  private
+
   def self.attr_search(query, selection)
     self.send(("by_" + selection).to_sym, ThinkingSphinx::Query.escape(query)).send(:search)
   end 
