@@ -29,6 +29,7 @@ Here I just whant to let you know about some details. First of all you can ran t
 * create data bases - you'll need mysql for sphinx and reddis for sidekiq(you have to set your password to mysql in configures). I set yml file to gitignore
 * rake ts:index 
 * foreman start
+*!!!!! I dont know why but it just don't work adding bundle exec sidekiq into foreman. Since that you have to run it manually --  bundle exec sidekiq -- If you don't mind please help me to get through this issue. 
 
 First of all about tracking. My first thought was to  use arround_update/create callback, and I succeeded with that, but than I met this gem paiper trail  -  and it was deffinitely awesome. And so I refactored my app to paiper trail. 
 Also, IMHO authorization of the guest would absolutely fit this app. If you whant to see me adding authorization please let me know and I will add devise + Oauth2( facebook, twitter and so on)
